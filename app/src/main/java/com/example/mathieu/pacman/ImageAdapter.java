@@ -31,8 +31,19 @@ public class ImageAdapter extends BaseAdapter {
         mContext = c;
     }
 
-    public int getCount() {
-        return mThumbIds.length;
+    public int getCount() {return getStr().length;}
+
+    public String[] getStr()
+    {
+        InputStream inputStream = mContext.getResources().openRawResource(R.raw.grid);
+        String stringFile = readTextFile(inputStream);
+        String textStr[] = stringFile.split("\\r\\n|\\n|\\r");
+        String ss = "";
+        for (String t:textStr) {
+            ss += t;
+        }
+        String str[] = ss.split(",");
+        return str;
     }
 
     public Object getItem(int position) {
@@ -46,31 +57,69 @@ public class ImageAdapter extends BaseAdapter {
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
+        String str[] = getStr();
 
-        InputStream inputStream = mContext.getResources().openRawResource(R.raw.grid);
-        String stringFile = readTextFile(inputStream);
-        String str[] = stringFile.split(",");
-        for(String s:str) {
-            System.out.println(s);
-        }
-
-        switch ()
 
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(80, 80));
+            imageView.setLayoutParams(new GridView.LayoutParams(100, 100));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
             imageView = (ImageView) convertView;
         }
+
+        System.out.println(matrice());
         imageView.setImageResource(mThumbIds[Integer.parseInt(str[position])]);
         return imageView;
     }
 
+    public String[][] matrice()
+    {
+        String[][] tab1 = new String[5][11];
+        String str[] = getStr();
+
+        int cpt = 0;
+        int cpt2 = 0;
+
+        for(String[] t:tab1) {
+            for(int i=cpt*11;i<(cpt+1)*11;i++) {
+                t[cpt2] = str[i];
+                cpt2++;
+            }
+            cpt++;
+        }
+
+        return tab1;
+    }
+
+  /*  public View updateView(int position, View convertView, ViewGroup parent, String direction) {
+        ImageView imageView;
+        String str[] = getStr();
+
+        for (String s:str) {
+            if (s.equals("2")) {
+                String pacman = s;
+            }
+        }
+
+        switch (direction) {
+            case "top":
+                break;
+            case "right":
+                break;
+            case "bottom":
+                break;
+            case "left":
+                break;
+        }
+        return imageView;
+    } */
+
     // references to our images
     private Integer[] mThumbIds = {
-            R.drawable.blue, R.drawable.circle, R.drawable.white
+            R.drawable.mur, R.drawable.miam,  R.drawable.pacman, R.drawable.ghost1, R.drawable.ghost2, R.drawable.ghost3,
+
     };
 
     public String readTextFile(InputStream inputStream) {

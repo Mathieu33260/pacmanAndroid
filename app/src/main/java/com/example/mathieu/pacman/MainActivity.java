@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,5 +26,17 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void left_button_click(View view) {
+    }
+
+    public void top_button_click(View view) {
+    }
+
+    public void bottom_button_click(View view) {
+    }
+
+    public void right_button_click(View view) {
     }
 }
