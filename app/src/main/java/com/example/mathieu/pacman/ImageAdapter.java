@@ -63,7 +63,7 @@ public class ImageAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        imageView.setImageResource(mThumbIds[1]);
+        imageView.setImageResource(mThumbIds[Integer.parseInt(str[position])]);
         return imageView;
     }
 
