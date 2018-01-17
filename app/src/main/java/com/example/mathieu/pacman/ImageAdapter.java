@@ -54,16 +54,18 @@ public class ImageAdapter extends BaseAdapter {
             System.out.println(s);
         }
 
+        switch ()
+
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(50, 50));
+            imageView.setLayoutParams(new GridView.LayoutParams(80, 80));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
             imageView = (ImageView) convertView;
         }
 
-        imageView.setImageResource(mThumbIds[1]);
+        imageView.setImageResource(mThumbIds[0]);
         return imageView;
     }
 
