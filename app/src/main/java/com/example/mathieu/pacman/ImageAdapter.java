@@ -29,7 +29,11 @@ public class ImageAdapter extends BaseAdapter {
 
     private String nextDirection = "";
 
-    private String[][] matrice = new String[5][11];
+    private static final int NUMBER_COLUMNS = 19;
+
+    private static final int NUMBER_LINES = 6;
+
+    private String[][] matrice = new String[NUMBER_LINES][NUMBER_COLUMNS];
 
     public ImageAdapter(Context c) {
         mContext = c;
@@ -59,33 +63,32 @@ public class ImageAdapter extends BaseAdapter {
         return 0;
     }
 
-    // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
         String str[] = getStr();
 
 
         if (convertView == null) {
-            // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(100, 100));
+            imageView.setLayoutParams(new GridView.LayoutParams(56, 56));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
             imageView = (ImageView) convertView;
         }
-        imageView.setImageResource(mThumbIds[Integer.parseInt(matrice[position/11][position%11])]);
+        imageView.setImageResource(mThumbIds[Integer.parseInt(matrice[position/NUMBER_COLUMNS][position%NUMBER_COLUMNS])]);
         return imageView;
     }
 
     public String[][] matrice(String str[])
     {
-        String[][] tab1 = new String[5][11];
+        String[][] tab1 = new String[NUMBER_LINES][NUMBER_COLUMNS];
 
         int cpt = 0;
         int cpt2 = 0;
 
         for(String[] t:tab1) {
-            for(int i=cpt*11;i<(cpt+1)*11;i++) {
+            for(int i=cpt*NUMBER_COLUMNS;i<(cpt+1)*NUMBER_COLUMNS;i++) {
+                System.out.println(str[i]);
                 t[cpt2] = str[i];
                 cpt2++;
             }

@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:numColumns="11"
+        android:numColumns="19"
         android:stretchMode="columnWidth" />
 
     <LinearLayout
