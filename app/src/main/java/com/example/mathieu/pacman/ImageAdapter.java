@@ -69,7 +69,15 @@ public class ImageAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        System.out.println(matrice());
+        String[][] matrice = matrice();
+        for(String[] t1:matrice)
+        {
+            for(String t:t1)
+            {
+                System.out.print(t);
+            }
+            System.out.println("");
+        }
         imageView.setImageResource(mThumbIds[Integer.parseInt(str[position])]);
         return imageView;
     }
