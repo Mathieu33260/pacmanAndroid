@@ -25,10 +25,15 @@ import static android.content.ContentValues.TAG;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
 
-    private ArrayList<Integer> tabGrid = new ArrayList<>();
+    private String currentDirection = "";
+
+    private String nextDirection = "";
+
+    private String[][] matrice = new String[5][11];
 
     public ImageAdapter(Context c) {
         mContext = c;
+        matrice = matrice(getStr());
     }
 
     public int getCount() {return getStr().length;}
@@ -68,24 +73,13 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-
-        String[][] matrice = matrice();
-        for(String[] t1:matrice)
-        {
-            for(String t:t1)
-            {
-                System.out.print(t);
-            }
-            System.out.println("");
-        }
-        imageView.setImageResource(mThumbIds[Integer.parseInt(str[position])]);
+        imageView.setImageResource(mThumbIds[Integer.parseInt(matrice[position/11][position%11])]);
         return imageView;
     }
 
-    public String[][] matrice()
+    public String[][] matrice(String str[])
     {
         String[][] tab1 = new String[5][11];
-        String str[] = getStr();
 
         int cpt = 0;
         int cpt2 = 0;
@@ -96,38 +90,90 @@ public class ImageAdapter extends BaseAdapter {
                 cpt2++;
             }
             cpt++;
+            cpt2 = 0;
         }
 
         return tab1;
     }
 
-  /*  public View updateView(int position, View convertView, ViewGroup parent, String direction) {
-        ImageView imageView;
-        String str[] = getStr();
+    public void updateView(String nextDirection) {
 
-        for (String s:str) {
-            if (s.equals("2")) {
-                String pacman = s;
+        int[] pacman = new int[2];
+
+        for(int i=0; i<matrice.length; i++)
+        {
+            for(int j=0; j<matrice[i].length; j++)
+            {
+                if (matrice[i][j].equals("2")) {
+                    pacman[0] = i;
+                    pacman[1] = j;
+                }
             }
         }
 
-        switch (direction) {
+        if (currentDirection.equals("")) {
+            currentDirection = nextDirection;
+        }
+
+        switch (nextDirection) {
+
             case "top":
+                if (!matrice[pacman[0] - 1][pacman[1]].equals("0")) {
+                    currentDirection = nextDirection;
+                }
                 break;
             case "right":
+                if (!matrice[pacman[0]][pacman[1] + 1].equals("0")) {
+                    currentDirection = nextDirection;
+                }
                 break;
             case "bottom":
+                if (!matrice[pacman[0] + 1][pacman[1]].equals("0")) {
+                    currentDirection = nextDirection;
+                }
                 break;
             case "left":
+                if (!matrice[pacman[0]][pacman[1] - 1].equals("0")) {
+                    currentDirection = nextDirection;
+                }
                 break;
         }
-        return imageView;
-    } */
+
+        switch (currentDirection) {
+
+            case "top":
+                if (!matrice[pacman[0] - 1][pacman[1]].equals("0")) {
+                    matrice[pacman[0]][pacman[1]] = "6";
+                    matrice[pacman[0] - 1][pacman[1]] = "2";
+                }
+                break;
+            case "right":
+                if (!matrice[pacman[0]][pacman[1] + 1].equals("0")) {
+                    matrice[pacman[0]][pacman[1]] = "6";
+                    matrice[pacman[0]][pacman[1] + 1] = "2";
+                }
+                break;
+            case "bottom":
+                if (!matrice[pacman[0] + 1][pacman[1]].equals("0")) {
+                    matrice[pacman[0]][pacman[1]] = "6";
+                    matrice[pacman[0] + 1][pacman[1]] = "2";
+                }
+                break;
+            case "left":
+                if (!matrice[pacman[0]][pacman[1] - 1].equals("0")) {
+                    matrice[pacman[0]][pacman[1]] = "6";
+                    matrice[pacman[0]][pacman[1] - 1] = "2";
+                }
+                break;
+        }
+    }
+
+
 
     // references to our images
     private Integer[] mThumbIds = {
-            R.drawable.mur, R.drawable.miam,  R.drawable.pacman, R.drawable.ghost1, R.drawable.ghost2, R.drawable.ghost3,
-
+            R.drawable.mur, R.drawable.miam,  R.drawable.pacman, R.drawable.ghost1, R.drawable.ghost2,
+            R.drawable.ghost3, R.drawable.white
     };
 
     public String readTextFile(InputStream inputStream) {
@@ -147,4 +193,19 @@ public class ImageAdapter extends BaseAdapter {
         return outputStream.toString();
     }
 
+    public String getNextDirection() {
+        return nextDirection;
+    }
+
+    public void setNextDirection(String nextDirection) {
+        this.nextDirection = nextDirection;
+    }
+
+    public String getCurrentDirection() {
+        return currentDirection;
+    }
+
+    public void setCurrentDirection(String currentDirection) {
+        this.currentDirection = currentDirection;
+    }
 }
