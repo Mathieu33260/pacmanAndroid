@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     Pacman pacman;
 
+    Ghost ghostRandom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         imageAdapter = new ImageAdapter(this,getStr().length,matrice,NUMBER_COLUMNS);
 
         pacman = new Pacman("","","2");
+        ghostRandom = new Ghost("","RANDOM");
 
         for(int i=0; i<matrice.length; i++)
         {
@@ -49,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
                 if (matrice[i][j].equals(pacman.getPacmanRotation())) {
                     pacman.setPosX(i);
                     pacman.setPosY(j);
+                }
+                if (matrice[i][j].equals("5")) {
+                    ghostRandom.setPosX(i);
+                    ghostRandom.setPosY(j);
                 }
             }
         }
@@ -63,11 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run()
                     {
                         count++;
-                        if(!pacman.getNextDirection().equals(""))
-                        {
-                            updateView(pacman.getNextDirection());
-                            imageAdapter.notifyDataSetChanged();
-                        }
+                        updateView(pacman.getNextDirection());
                     }
                 });
             }
@@ -95,8 +98,15 @@ public class MainActivity extends AppCompatActivity {
                     pacman.setPosX(i);
                     pacman.setPosY(j);
                 }
+                if (matrice[i][j].equals("5")) {
+                    ghostRandom.setPosX(i);
+                    ghostRandom.setPosY(j);
+                }
             }
         }
+
+        matrice = ghostRandom.nextDirection(matrice);
+        imageAdapter.setMatrice(matrice);
 
         if (pacman.getCurrentDirection().equals("")) {
             pacman.setCurrentDirection(nextDirection);
@@ -180,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
 
         for(String[] t:tab1) {
             for(int i=cpt*NUMBER_COLUMNS;i<(cpt+1)*NUMBER_COLUMNS;i++) {
-                System.out.println(str[i]);
                 t[cpt2] = str[i];
                 cpt2++;
             }
