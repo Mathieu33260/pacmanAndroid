@@ -58,9 +58,20 @@ public class Ghost {
 
         int select = random.nextInt(dir.size());
 
+        String ghost = "";
+
         switch (type)
         {
-            case "":
+            case "RANDOM":
+                ghost = GHOST_1;
+                break;
+
+            case "EVIL":
+                ghost = GHOST_2;
+                break;
+
+            case "SMART":
+                ghost = GHOST_3;
                 break;
         }
 
@@ -68,22 +79,22 @@ public class Ghost {
         {
             case "top":
                 matrice[posX][posY] = MIAM_BLOCK;
-                matrice[posX - 1][posY] = GHOST_1;
+                matrice[posX - 1][posY] = ghost;
                 break;
 
             case "bottom":
                 matrice[posX][posY] = MIAM_BLOCK;
-                matrice[posX + 1][posY] = GHOST_1;
+                matrice[posX + 1][posY] = ghost;
                 break;
 
             case "left":
                 matrice[posX][posY] = MIAM_BLOCK;
-                matrice[posX][posY - 1] = GHOST_1;
+                matrice[posX][posY - 1] = ghost;
                 break;
 
             case "right":
                 matrice[posX][posY] = MIAM_BLOCK;
-                matrice[posX][posY + 1] = GHOST_1;
+                matrice[posX][posY + 1] = ghost;
                 break;
         }
 
