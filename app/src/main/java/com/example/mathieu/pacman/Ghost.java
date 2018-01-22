@@ -25,19 +25,19 @@ public class Ghost {
     {
         ArrayList<String> dir = new ArrayList<>();
 
-        if(!matrice[posX - 1][posY].equals("0") && !previousDirection.equals("top"))
+        if(!matrice[posX - 1][posY].equals("0") && !previousDirection.equals("bottom"))
         {
             dir.add("top");
         }
-        if(!matrice[posX][posY + 1].equals("0") && !previousDirection.equals("right"))
+        if(!matrice[posX][posY + 1].equals("0") && !previousDirection.equals("left"))
         {
             dir.add("right");
         }
-        if(!matrice[posX + 1][posY].equals("0") && !previousDirection.equals("bottom"))
+        if(!matrice[posX + 1][posY].equals("0") && !previousDirection.equals("top"))
         {
             dir.add("bottom");
         }
-        if(!matrice[posX][posY - 1].equals("0") && !previousDirection.equals("left"))
+        if(!matrice[posX][posY - 1].equals("0") && !previousDirection.equals("right"))
         {
             dir.add("left");
         }
@@ -49,22 +49,22 @@ public class Ghost {
         switch (dir.get(select))
         {
             case "top":
-                matrice[posX][posY] = "7";
+                matrice[posX][posY] = "1";
                 matrice[posX - 1][posY] = "5";
                 break;
 
             case "bottom":
-                matrice[posX][posY] = "7";
+                matrice[posX][posY] = "1";
                 matrice[posX + 1][posY] = "5";
                 break;
 
             case "left":
-                matrice[posX][posY] = "7";
+                matrice[posX][posY] = "1";
                 matrice[posX][posY - 1] = "5";
                 break;
 
             case "right":
-                matrice[posX][posY] = "7";
+                matrice[posX][posY] = "1";
                 matrice[posX][posY + 1] = "5";
                 break;
         }

@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageAdapter imageAdapter;
     private int timer;
     private int count;
+    private int count2;
 
     private static final int NUMBER_COLUMNS = 19;
 
@@ -96,6 +97,27 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 260, 260);
 
+        final Timer T2=new Timer();
+        T2.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        if (cptMiam == 0) {
+                            T2.cancel();
+                            System.out.println("J'ai gagné");
+                        }
+                        count2++;
+                        updateGhost();
+                        imageAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }, 260, 260);
+
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(imageAdapter);
 
@@ -108,6 +130,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void updateGhost()
+    {
+        for(int i=0; i<matrice.length; i++)
+        {
+            for(int j=0; j<matrice[i].length; j++)
+            {
+                if (matrice[i][j].equals("5")) {
+                    ghostRandom.setPosX(i);
+                    ghostRandom.setPosY(j);
+                }
+            }
+        }
+
+        matrice = ghostRandom.nextDirection(matrice);
+        imageAdapter.setMatrice(matrice);
+    }
+
     public void updateView(String nextDirection) {
 
         for(int i=0; i<matrice.length; i++)
@@ -118,15 +157,8 @@ public class MainActivity extends AppCompatActivity {
                     pacman.setPosX(i);
                     pacman.setPosY(j);
                 }
-                if (matrice[i][j].equals("5")) {
-                    ghostRandom.setPosX(i);
-                    ghostRandom.setPosY(j);
-                }
             }
         }
-
-        matrice = ghostRandom.nextDirection(matrice);
-        imageAdapter.setMatrice(matrice);
 
         if (pacman.getCurrentDirection().equals("")) {
             pacman.setCurrentDirection(nextDirection);
