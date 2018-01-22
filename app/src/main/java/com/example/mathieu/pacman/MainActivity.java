@@ -27,23 +27,31 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String WALL_BLOCK = "0";
 
-    private String pacmanRotation;
-
     private String[][] matrice = new String[NUMBER_LINES][NUMBER_COLUMNS];
 
-    private String currentDirection = "";
-
-    private String nextDirection = "";
+    Pacman pacman;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        pacmanRotation = "2";
         matrice = matrice(getStr());
 
         imageAdapter = new ImageAdapter(this,getStr().length,matrice,NUMBER_COLUMNS);
+
+        pacman = new Pacman("","","2");
+
+        for(int i=0; i<matrice.length; i++)
+        {
+            for(int j=0; j<matrice[i].length; j++)
+            {
+                if (matrice[i][j].equals(pacman.getPacmanRotation())) {
+                    pacman.setPosX(i);
+                    pacman.setPosY(j);
+                }
+            }
+        }
 
         Timer T=new Timer();
         T.scheduleAtFixedRate(new TimerTask() {
@@ -55,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
                     public void run()
                     {
                         count++;
-                        if(!nextDirection.equals(""))
+                        if(!pacman.getNextDirection().equals(""))
                         {
-                            updateView(nextDirection);
+                            updateView(pacman.getNextDirection());
                             imageAdapter.notifyDataSetChanged();
                         }
                     }
@@ -79,73 +87,71 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateView(String nextDirection) {
 
-        int[] pacman = new int[2];
-
         for(int i=0; i<matrice.length; i++)
         {
             for(int j=0; j<matrice[i].length; j++)
             {
-                if (matrice[i][j].equals(pacmanRotation)) {
-                    pacman[0] = i;
-                    pacman[1] = j;
+                if (matrice[i][j].equals(pacman.getPacmanRotation())) {
+                    pacman.setPosX(i);
+                    pacman.setPosY(j);
                 }
             }
         }
 
-        if (currentDirection.equals("")) {
-            currentDirection = nextDirection;
+        if (pacman.getCurrentDirection().equals("")) {
+            pacman.setCurrentDirection(nextDirection);
         }
 
         switch (nextDirection) {
 
             case "top":
-                if (!matrice[pacman[0] - 1][pacman[1]].equals(WALL_BLOCK)) {
-                    currentDirection = nextDirection;
+                if (!matrice[pacman.getPosX() - 1][pacman.getPosY()].equals(WALL_BLOCK)) {
+                    pacman.setCurrentDirection(nextDirection);
                 }
                 break;
             case "right":
-                if (!matrice[pacman[0]][pacman[1] + 1].equals(WALL_BLOCK)) {
-                    pacmanRotation = "2";
-                    currentDirection = nextDirection;
+                if (!matrice[pacman.getPosX()][pacman.getPosY() + 1].equals(WALL_BLOCK)) {
+                    pacman.setPacmanRotation("2");
+                    pacman.setCurrentDirection(nextDirection);
                 }
                 break;
             case "bottom":
-                if (!matrice[pacman[0] + 1][pacman[1]].equals(WALL_BLOCK)) {
-                    currentDirection = nextDirection;
+                if (!matrice[pacman.getPosX() + 1][pacman.getPosY()].equals(WALL_BLOCK)) {
+                    pacman.setCurrentDirection(nextDirection);
                 }
                 break;
             case "left":
-                if (!matrice[pacman[0]][pacman[1] - 1].equals(WALL_BLOCK)) {
-                    pacmanRotation = "3";
-                    currentDirection = nextDirection;
+                if (!matrice[pacman.getPosX()][pacman.getPosY() - 1].equals(WALL_BLOCK)) {
+                    pacman.setPacmanRotation("3");
+                    pacman.setCurrentDirection(nextDirection);
                 }
                 break;
         }
 
-        switch (currentDirection) {
+        switch (pacman.getCurrentDirection()) {
 
             case "top":
-                if (!matrice[pacman[0] - 1][pacman[1]].equals(WALL_BLOCK)) {
-                    matrice[pacman[0]][pacman[1]] = WHITE_BLOCK;
-                    matrice[pacman[0] - 1][pacman[1]] = pacmanRotation;
+                if (!matrice[pacman.getPosX() - 1][pacman.getPosY()].equals(WALL_BLOCK)) {
+                    matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
+                    matrice[pacman.getPosX() - 1][pacman.getPosY()] = pacman.getPacmanRotation();
                 }
                 break;
             case "right":
-                if (!matrice[pacman[0]][pacman[1] + 1].equals(WALL_BLOCK)) {
-                    matrice[pacman[0]][pacman[1]] = WHITE_BLOCK;
-                    matrice[pacman[0]][pacman[1] + 1] = pacmanRotation;
+                if (!matrice[pacman.getPosX()][pacman.getPosY() + 1].equals(WALL_BLOCK)) {
+                    matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
+                    matrice[pacman.getPosX()][pacman.getPosY() + 1] = pacman.getPacmanRotation();
                 }
                 break;
             case "bottom":
-                if (!matrice[pacman[0] + 1][pacman[1]].equals(WALL_BLOCK)) {
-                    matrice[pacman[0]][pacman[1]] = WHITE_BLOCK;
-                    matrice[pacman[0] + 1][pacman[1]] = pacmanRotation;
+                if (!matrice[pacman.getPosX() + 1][pacman.getPosY()].equals(WALL_BLOCK)) {
+                    matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
+                    matrice[pacman.getPosX() + 1][pacman.getPosY()] = pacman.getPacmanRotation();
                 }
                 break;
             case "left":
-                if (!matrice[pacman[0]][pacman[1] - 1].equals(WALL_BLOCK)) {
-                    matrice[pacman[0]][pacman[1]] = WHITE_BLOCK;
-                    matrice[pacman[0]][pacman[1] - 1] = pacmanRotation;
+                if (!matrice[pacman.getPosX()][pacman.getPosY() - 1].equals(WALL_BLOCK)) {
+                    matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
+                    matrice[pacman.getPosX()][pacman.getPosY() - 1] = pacman.getPacmanRotation();
                 }
                 break;
         }
@@ -203,18 +209,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void left_button_click(View view) {
-        nextDirection = "left";
+        pacman.setNextDirection("left");
     }
 
     public void top_button_click(View view) {
-        nextDirection = "top";
+        pacman.setNextDirection("top");
     }
 
     public void bottom_button_click(View view) {
-        nextDirection = "bottom";
+        pacman.setNextDirection("bottom");
     }
 
     public void right_button_click(View view) {
-        nextDirection = "right";
+        pacman.setNextDirection("right");
     }
 }
