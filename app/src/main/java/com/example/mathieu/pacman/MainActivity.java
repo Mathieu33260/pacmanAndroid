@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         count++;
                         updateView(pacman.getNextDirection());
+                        imageAdapter.notifyDataSetChanged();
                     }
                 });
             }
