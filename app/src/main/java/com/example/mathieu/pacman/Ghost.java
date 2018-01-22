@@ -46,6 +46,12 @@ public class Ghost {
 
         int select = random.nextInt(dir.size());
 
+        switch (type)
+        {
+            case "":
+                break;
+        }
+
         switch (dir.get(select))
         {
             case "top":
