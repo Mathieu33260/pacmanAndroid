@@ -15,15 +15,17 @@ public class Ghost {
     private int posY;
     private String previousDirection;
 
-    public static final String WHITE_BLOCK = "9";
+    private static final String WHITE_BLOCK = "9";
 
-    public static final String WALL_BLOCK = "0";
+    private static final String MIAM_BLOCK = "1";
 
-    public static final String GHOST_1 = "6";
+    private static final String WALL_BLOCK = "0";
 
-    public static final String GHOST_2 = "7";
+    private static final String GHOST_1 = "6";
 
-    public static final String GHOST_3 = "8";
+    private static final String GHOST_2 = "7";
+
+    private static final String GHOST_3 = "8";
 
     Ghost(String previousDirection, String type)
     {
@@ -56,25 +58,31 @@ public class Ghost {
 
         int select = random.nextInt(dir.size());
 
+        switch (type)
+        {
+            case "":
+                break;
+        }
+
         switch (dir.get(select))
         {
             case "top":
-                matrice[posX][posY] = WHITE_BLOCK;
+                matrice[posX][posY] = MIAM_BLOCK;
                 matrice[posX - 1][posY] = GHOST_1;
                 break;
 
             case "bottom":
-                matrice[posX][posY] = WHITE_BLOCK;
+                matrice[posX][posY] = MIAM_BLOCK;
                 matrice[posX + 1][posY] = GHOST_1;
                 break;
 
             case "left":
-                matrice[posX][posY] = WHITE_BLOCK;
+                matrice[posX][posY] = MIAM_BLOCK;
                 matrice[posX][posY - 1] = GHOST_1;
                 break;
 
             case "right":
-                matrice[posX][posY] = WHITE_BLOCK;
+                matrice[posX][posY] = MIAM_BLOCK;
                 matrice[posX][posY + 1] = GHOST_1;
                 break;
         }

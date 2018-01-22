@@ -18,14 +18,17 @@ public class MainActivity extends AppCompatActivity {
     private ImageAdapter imageAdapter;
     private int timer;
     private int count;
+    private int count2;
+    private int count3;
+    private int count4;
 
     private static final int NUMBER_COLUMNS = 19;
 
     private static final int NUMBER_LINES = 6;
 
-    public static final String WHITE_BLOCK = "9";
-
     public static final String WALL_BLOCK = "0";
+
+    public static final String MIAM_BLOCK = "1";
 
     public static final String PACMAN_OPEN = "2";
 
@@ -35,14 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String PACMAN_CLOSE_REVERSE = "5";
 
-    public static final String MIAM_BLOCK = "1";
-
     public static final String GHOST_1 = "6";
 
     public static final String GHOST_2 = "7";
 
     public static final String GHOST_3 = "8";
 
+    public static final String WHITE_BLOCK = "9";
 
     private String[][] matrice = new String[NUMBER_LINES][NUMBER_COLUMNS];
 
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     Pacman pacman;
 
     Ghost ghostRandom;
+    Ghost ghostEvil;
+    Ghost ghostSmart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
         pacman = new Pacman("","", PACMAN_OPEN);
         ghostRandom = new Ghost("","RANDOM");
+        ghostEvil = new Ghost("","EVIL");
+        ghostSmart = new Ghost("","SMART");
 
         cptMiam = 0;
 
@@ -77,11 +83,19 @@ public class MainActivity extends AppCompatActivity {
                     pacman.setPosX(i);
                     pacman.setPosY(j);
                 }
-
                 if (matrice[i][j].equals(GHOST_1)) {
                     ghostRandom.setPosX(i);
                     ghostRandom.setPosY(j);
+                }
 
+                if (matrice[i][j].equals(GHOST_2)) {
+                    ghostEvil.setPosX(i);
+                    ghostEvil.setPosY(j);
+                }
+
+                if (matrice[i][j].equals(GHOST_3)) {
+                    ghostSmart.setPosX(i);
+                    ghostSmart.setPosY(j);
                 }
 
                 if (matrice[i][j].equals(MIAM_BLOCK)) {
@@ -111,6 +125,69 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 260, 260);
 
+        final Timer T2=new Timer();
+        T2.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        if (cptMiam == 0) {
+                            T2.cancel();
+                            System.out.println("J'ai gagné");
+                        }
+                        count2++;
+                        updateGhost(ghostRandom);
+                        imageAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }, 260, 260);
+
+        final Timer T3=new Timer();
+        T3.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        if (cptMiam == 0) {
+                            T3.cancel();
+                            System.out.println("J'ai gagné");
+                        }
+                        count3++;
+                        updateGhost(ghostEvil);
+                        imageAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }, 260, 260);
+
+        final Timer T4=new Timer();
+        T4.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        if (cptMiam == 0) {
+                            T4.cancel();
+                            System.out.println("J'ai gagné");
+                        }
+                        count4++;
+                        updateGhost(ghostSmart);
+                        imageAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }, 260, 260);
+
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(imageAdapter);
 
@@ -123,6 +200,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void updateGhost(Ghost ghost)
+    {
+        for(int i=0; i<matrice.length; i++)
+        {
+            for(int j=0; j<matrice[i].length; j++)
+            {
+                if (matrice[i][j].equals(GHOST_1) && ghost.getType().equals("RANDOM")) {
+                    ghostRandom.setPosX(i);
+                    ghostRandom.setPosY(j);
+                }
+
+                if (matrice[i][j].equals(GHOST_2) && ghost.getType().equals("EVIL")) {
+                    ghostEvil.setPosX(i);
+                    ghostEvil.setPosY(j);
+                }
+
+                if (matrice[i][j].equals(GHOST_3) && ghost.getType().equals("SMART")) {
+                    ghostSmart.setPosX(i);
+                    ghostSmart.setPosY(j);
+                }
+            }
+        }
+
+        matrice = ghost.nextDirection(matrice);
+        imageAdapter.setMatrice(matrice);
+    }
+
     public void updateView(String nextDirection) {
 
         for(int i=0; i<matrice.length; i++)
@@ -133,15 +237,8 @@ public class MainActivity extends AppCompatActivity {
                     pacman.setPosX(i);
                     pacman.setPosY(j);
                 }
-                if (matrice[i][j].equals(GHOST_1)) {
-                    ghostRandom.setPosX(i);
-                    ghostRandom.setPosY(j);
-                }
             }
         }
-
-        matrice = ghostRandom.nextDirection(matrice);
-        imageAdapter.setMatrice(matrice);
 
         if (pacman.getCurrentDirection().equals("")) {
             pacman.setCurrentDirection(nextDirection);
