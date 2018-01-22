@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 300, 300);
+        }, 260, 260);
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(imageAdapter);
