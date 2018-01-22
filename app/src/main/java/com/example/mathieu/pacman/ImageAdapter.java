@@ -15,42 +15,20 @@ import java.io.InputStream;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
 
-    private String currentDirection = "";
+    private int size;
 
-    private String nextDirection = "";
+    private String[][] matrice;
 
-    private static final int NUMBER_COLUMNS = 19;
+    private int nb_column;
 
-    private static final int NUMBER_LINES = 6;
-
-    private static final String WHITE_BLOCK = "7";
-
-    private static final String WALL_BLOCK = "0";
-
-    private String pacmanRotation;
-
-    private String[][] matrice = new String[NUMBER_LINES][NUMBER_COLUMNS];
-
-    public ImageAdapter(Context c) {
+    public ImageAdapter(Context c, int size, String[][] matrice, int nb_column) {
         mContext = c;
-        matrice = matrice(getStr());
-        pacmanRotation = "2";
+        this.size = size;
+        this.matrice = matrice;
+        this.nb_column = nb_column;
     }
 
-    public int getCount() {return getStr().length;}
-
-    public String[] getStr()
-    {
-        InputStream inputStream = mContext.getResources().openRawResource(R.raw.grid);
-        String stringFile = readTextFile(inputStream);
-        String textStr[] = stringFile.split("\\r\\n|\\n|\\r");
-        String ss = "";
-        for (String t:textStr) {
-            ss += t;
-        }
-        String str[] = ss.split(",");
-        return str;
-    }
+    public int getCount() {return size;}
 
     public Object getItem(int position) {
         return null;
@@ -62,8 +40,6 @@ public class ImageAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
-        String str[] = getStr();
-
 
         if (convertView == null) {
             imageView = new ImageView(mContext);
@@ -72,105 +48,9 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        imageView.setImageResource(mThumbIds[Integer.parseInt(matrice[position/NUMBER_COLUMNS][position%NUMBER_COLUMNS])]);
+        imageView.setImageResource(mThumbIds[Integer.parseInt(matrice[position / nb_column][position % nb_column])]);
         return imageView;
     }
-
-    public String[][] matrice(String str[])
-    {
-        String[][] tab1 = new String[NUMBER_LINES][NUMBER_COLUMNS];
-
-        int cpt = 0;
-        int cpt2 = 0;
-
-        for(String[] t:tab1) {
-            for(int i=cpt*NUMBER_COLUMNS;i<(cpt+1)*NUMBER_COLUMNS;i++) {
-                System.out.println(str[i]);
-                t[cpt2] = str[i];
-                cpt2++;
-            }
-            cpt++;
-            cpt2 = 0;
-        }
-
-        return tab1;
-    }
-
-    public void updateView(String nextDirection) {
-
-        int[] pacman = new int[2];
-
-        for(int i=0; i<matrice.length; i++)
-        {
-            for(int j=0; j<matrice[i].length; j++)
-            {
-                if (matrice[i][j].equals(pacmanRotation)) {
-                    pacman[0] = i;
-                    pacman[1] = j;
-                }
-            }
-        }
-
-        if (currentDirection.equals("")) {
-            currentDirection = nextDirection;
-        }
-
-        switch (nextDirection) {
-
-            case "top":
-                if (!matrice[pacman[0] - 1][pacman[1]].equals(WALL_BLOCK)) {
-                    currentDirection = nextDirection;
-                }
-                break;
-            case "right":
-                if (!matrice[pacman[0]][pacman[1] + 1].equals(WALL_BLOCK)) {
-                    pacmanRotation = "2";
-                    currentDirection = nextDirection;
-                }
-                break;
-            case "bottom":
-                if (!matrice[pacman[0] + 1][pacman[1]].equals(WALL_BLOCK)) {
-                    currentDirection = nextDirection;
-                }
-                break;
-            case "left":
-                if (!matrice[pacman[0]][pacman[1] - 1].equals(WALL_BLOCK)) {
-                    pacmanRotation = "3";
-                    currentDirection = nextDirection;
-                }
-                break;
-        }
-
-        switch (currentDirection) {
-
-            case "top":
-                if (!matrice[pacman[0] - 1][pacman[1]].equals(WALL_BLOCK)) {
-                    matrice[pacman[0]][pacman[1]] = WHITE_BLOCK;
-                    matrice[pacman[0] - 1][pacman[1]] = pacmanRotation;
-                }
-                break;
-            case "right":
-                if (!matrice[pacman[0]][pacman[1] + 1].equals(WALL_BLOCK)) {
-                    matrice[pacman[0]][pacman[1]] = WHITE_BLOCK;
-                    matrice[pacman[0]][pacman[1] + 1] = pacmanRotation;
-                }
-                break;
-            case "bottom":
-                if (!matrice[pacman[0] + 1][pacman[1]].equals(WALL_BLOCK)) {
-                    matrice[pacman[0]][pacman[1]] = WHITE_BLOCK;
-                    matrice[pacman[0] + 1][pacman[1]] = pacmanRotation;
-                }
-                break;
-            case "left":
-                if (!matrice[pacman[0]][pacman[1] - 1].equals(WALL_BLOCK)) {
-                    matrice[pacman[0]][pacman[1]] = WHITE_BLOCK;
-                    matrice[pacman[0]][pacman[1] - 1] = pacmanRotation;
-                }
-                break;
-        }
-    }
-
-
 
     // references to our images
     private Integer[] mThumbIds = {
@@ -178,36 +58,7 @@ public class ImageAdapter extends BaseAdapter {
             R.drawable.ghost3, R.drawable.white
     };
 
-    public String readTextFile(InputStream inputStream) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-        byte buf[] = new byte[1024];
-        int len;
-        try {
-            while ((len = inputStream.read(buf)) != -1) {
-                outputStream.write(buf, 0, len);
-            }
-            outputStream.close();
-            inputStream.close();
-        } catch (IOException e) {
-
-        }
-        return outputStream.toString();
-    }
-
-    public String getNextDirection() {
-        return nextDirection;
-    }
-
-    public void setNextDirection(String nextDirection) {
-        this.nextDirection = nextDirection;
-    }
-
-    public String getCurrentDirection() {
-        return currentDirection;
-    }
-
-    public void setCurrentDirection(String currentDirection) {
-        this.currentDirection = currentDirection;
+    public void setMatrice(String[][] matrice) {
+        this.matrice = matrice;
     }
 }
