@@ -1,25 +1,15 @@
 package com.example.mathieu.pacman;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
 
 
 public class ImageAdapter extends BaseAdapter {
@@ -33,11 +23,18 @@ public class ImageAdapter extends BaseAdapter {
 
     private static final int NUMBER_LINES = 6;
 
+    private static final String WHITE_BLOCK = "7";
+
+    private static final String WALL_BLOCK = "0";
+
+    private String pacmanRotation;
+
     private String[][] matrice = new String[NUMBER_LINES][NUMBER_COLUMNS];
 
     public ImageAdapter(Context c) {
         mContext = c;
         matrice = matrice(getStr());
+        pacmanRotation = "2";
     }
 
     public int getCount() {return getStr().length;}
@@ -107,7 +104,7 @@ public class ImageAdapter extends BaseAdapter {
         {
             for(int j=0; j<matrice[i].length; j++)
             {
-                if (matrice[i][j].equals("2")) {
+                if (matrice[i][j].equals(pacmanRotation)) {
                     pacman[0] = i;
                     pacman[1] = j;
                 }
@@ -121,22 +118,24 @@ public class ImageAdapter extends BaseAdapter {
         switch (nextDirection) {
 
             case "top":
-                if (!matrice[pacman[0] - 1][pacman[1]].equals("0")) {
+                if (!matrice[pacman[0] - 1][pacman[1]].equals(WALL_BLOCK)) {
                     currentDirection = nextDirection;
                 }
                 break;
             case "right":
-                if (!matrice[pacman[0]][pacman[1] + 1].equals("0")) {
+                if (!matrice[pacman[0]][pacman[1] + 1].equals(WALL_BLOCK)) {
+                    pacmanRotation = "2";
                     currentDirection = nextDirection;
                 }
                 break;
             case "bottom":
-                if (!matrice[pacman[0] + 1][pacman[1]].equals("0")) {
+                if (!matrice[pacman[0] + 1][pacman[1]].equals(WALL_BLOCK)) {
                     currentDirection = nextDirection;
                 }
                 break;
             case "left":
-                if (!matrice[pacman[0]][pacman[1] - 1].equals("0")) {
+                if (!matrice[pacman[0]][pacman[1] - 1].equals(WALL_BLOCK)) {
+                    pacmanRotation = "3";
                     currentDirection = nextDirection;
                 }
                 break;
@@ -145,27 +144,27 @@ public class ImageAdapter extends BaseAdapter {
         switch (currentDirection) {
 
             case "top":
-                if (!matrice[pacman[0] - 1][pacman[1]].equals("0")) {
-                    matrice[pacman[0]][pacman[1]] = "6";
-                    matrice[pacman[0] - 1][pacman[1]] = "2";
+                if (!matrice[pacman[0] - 1][pacman[1]].equals(WALL_BLOCK)) {
+                    matrice[pacman[0]][pacman[1]] = WHITE_BLOCK;
+                    matrice[pacman[0] - 1][pacman[1]] = pacmanRotation;
                 }
                 break;
             case "right":
-                if (!matrice[pacman[0]][pacman[1] + 1].equals("0")) {
-                    matrice[pacman[0]][pacman[1]] = "6";
-                    matrice[pacman[0]][pacman[1] + 1] = "2";
+                if (!matrice[pacman[0]][pacman[1] + 1].equals(WALL_BLOCK)) {
+                    matrice[pacman[0]][pacman[1]] = WHITE_BLOCK;
+                    matrice[pacman[0]][pacman[1] + 1] = pacmanRotation;
                 }
                 break;
             case "bottom":
-                if (!matrice[pacman[0] + 1][pacman[1]].equals("0")) {
-                    matrice[pacman[0]][pacman[1]] = "6";
-                    matrice[pacman[0] + 1][pacman[1]] = "2";
+                if (!matrice[pacman[0] + 1][pacman[1]].equals(WALL_BLOCK)) {
+                    matrice[pacman[0]][pacman[1]] = WHITE_BLOCK;
+                    matrice[pacman[0] + 1][pacman[1]] = pacmanRotation;
                 }
                 break;
             case "left":
-                if (!matrice[pacman[0]][pacman[1] - 1].equals("0")) {
-                    matrice[pacman[0]][pacman[1]] = "6";
-                    matrice[pacman[0]][pacman[1] - 1] = "2";
+                if (!matrice[pacman[0]][pacman[1] - 1].equals(WALL_BLOCK)) {
+                    matrice[pacman[0]][pacman[1]] = WHITE_BLOCK;
+                    matrice[pacman[0]][pacman[1] - 1] = pacmanRotation;
                 }
                 break;
         }
@@ -175,7 +174,7 @@ public class ImageAdapter extends BaseAdapter {
 
     // references to our images
     private Integer[] mThumbIds = {
-            R.drawable.mur, R.drawable.miam,  R.drawable.pacman, R.drawable.ghost1, R.drawable.ghost2,
+            R.drawable.mur, R.drawable.miam,  R.drawable.pacman, R.drawable.pacman_reverse, R.drawable.ghost1, R.drawable.ghost2,
             R.drawable.ghost3, R.drawable.white
     };
 
