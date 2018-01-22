@@ -54,8 +54,8 @@ public class ImageAdapter extends BaseAdapter {
 
     // references to our images
     private Integer[] mThumbIds = {
-            R.drawable.mur, R.drawable.miam,  R.drawable.pacman, R.drawable.pacman_reverse, R.drawable.ghost1, R.drawable.ghost2,
-            R.drawable.ghost3, R.drawable.white
+            R.drawable.mur, R.drawable.miam, R.drawable.pacman_open, R.drawable.pacman_open_reverse, R.drawable.pacman_close, R.drawable.pacman_close_reverse,
+            R.drawable.ghost1, R.drawable.ghost2, R.drawable.ghost3, R.drawable.white
     };
 
     public void setMatrice(String[][] matrice) {

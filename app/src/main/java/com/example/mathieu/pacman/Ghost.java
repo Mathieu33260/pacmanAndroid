@@ -15,6 +15,16 @@ public class Ghost {
     private int posY;
     private String previousDirection;
 
+    public static final String WHITE_BLOCK = "9";
+
+    public static final String WALL_BLOCK = "0";
+
+    public static final String GHOST_1 = "6";
+
+    public static final String GHOST_2 = "7";
+
+    public static final String GHOST_3 = "8";
+
     Ghost(String previousDirection, String type)
     {
         this.previousDirection = previousDirection;
@@ -25,19 +35,19 @@ public class Ghost {
     {
         ArrayList<String> dir = new ArrayList<>();
 
-        if(!matrice[posX - 1][posY].equals("0") && !previousDirection.equals("top"))
+        if(!matrice[posX - 1][posY].equals(WALL_BLOCK) && !previousDirection.equals("bottom"))
         {
             dir.add("top");
         }
-        if(!matrice[posX][posY + 1].equals("0") && !previousDirection.equals("right"))
+        if(!matrice[posX][posY + 1].equals(WALL_BLOCK) && !previousDirection.equals("left"))
         {
             dir.add("right");
         }
-        if(!matrice[posX + 1][posY].equals("0") && !previousDirection.equals("bottom"))
+        if(!matrice[posX + 1][posY].equals(WALL_BLOCK) && !previousDirection.equals("top"))
         {
             dir.add("bottom");
         }
-        if(!matrice[posX][posY - 1].equals("0") && !previousDirection.equals("left"))
+        if(!matrice[posX][posY - 1].equals(WALL_BLOCK) && !previousDirection.equals("right"))
         {
             dir.add("left");
         }
@@ -49,23 +59,23 @@ public class Ghost {
         switch (dir.get(select))
         {
             case "top":
-                matrice[posX][posY] = "7";
-                matrice[posX - 1][posY] = "5";
+                matrice[posX][posY] = WHITE_BLOCK;
+                matrice[posX - 1][posY] = GHOST_1;
                 break;
 
             case "bottom":
-                matrice[posX][posY] = "7";
-                matrice[posX + 1][posY] = "5";
+                matrice[posX][posY] = WHITE_BLOCK;
+                matrice[posX + 1][posY] = GHOST_1;
                 break;
 
             case "left":
-                matrice[posX][posY] = "7";
-                matrice[posX][posY - 1] = "5";
+                matrice[posX][posY] = WHITE_BLOCK;
+                matrice[posX][posY - 1] = GHOST_1;
                 break;
 
             case "right":
-                matrice[posX][posY] = "7";
-                matrice[posX][posY + 1] = "5";
+                matrice[posX][posY] = WHITE_BLOCK;
+                matrice[posX][posY + 1] = GHOST_1;
                 break;
         }
 

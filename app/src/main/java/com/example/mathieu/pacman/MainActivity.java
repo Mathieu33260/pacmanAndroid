@@ -23,19 +23,32 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int NUMBER_LINES = 6;
 
-    private static final String WHITE_BLOCK = "7";
+    public static final String WHITE_BLOCK = "9";
 
-    private static final String WALL_BLOCK = "0";
+    public static final String WALL_BLOCK = "0";
 
-    private static final String PACMAN = "2";
+    public static final String PACMAN_OPEN = "2";
 
-    private static final String PACMAN_REVERSE = "3";
+    public static final String PACMAN_OPEN_REVERSE = "3";
 
-    private static final String MIAM_BLOCK = "1";
+    public static final String PACMAN_CLOSE = "4";
+
+    public static final String PACMAN_CLOSE_REVERSE = "5";
+
+    public static final String MIAM_BLOCK = "1";
+
+    public static final String GHOST_1 = "6";
+
+    public static final String GHOST_2 = "7";
+
+    public static final String GHOST_3 = "8";
+
 
     private String[][] matrice = new String[NUMBER_LINES][NUMBER_COLUMNS];
 
     private int cptMiam;
+
+    private boolean pacmanOpenMouth;
 
     Pacman pacman;
 
@@ -50,10 +63,12 @@ public class MainActivity extends AppCompatActivity {
 
         imageAdapter = new ImageAdapter(this,getStr().length,matrice,NUMBER_COLUMNS);
 
-        pacman = new Pacman("","","2");
+        pacman = new Pacman("","", PACMAN_OPEN);
         ghostRandom = new Ghost("","RANDOM");
 
         cptMiam = 0;
+
+        pacmanOpenMouth = true;
 
         for(int i=0; i<matrice.length; i++)
         {
@@ -63,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     pacman.setPosY(j);
                 }
 
-                if (matrice[i][j].equals("5")) {
+                if (matrice[i][j].equals(GHOST_1)) {
                     ghostRandom.setPosX(i);
                     ghostRandom.setPosY(j);
 
@@ -118,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     pacman.setPosX(i);
                     pacman.setPosY(j);
                 }
-                if (matrice[i][j].equals("5")) {
+                if (matrice[i][j].equals(GHOST_1)) {
                     ghostRandom.setPosX(i);
                     ghostRandom.setPosY(j);
                 }
@@ -141,7 +156,13 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "right":
                 if (!matrice[pacman.getPosX()][pacman.getPosY() + 1].equals(WALL_BLOCK)) {
-                    pacman.setPacmanRotation(PACMAN);
+                    if (pacmanOpenMouth) {
+                        pacman.setPacmanRotation(PACMAN_CLOSE);
+                        pacmanOpenMouth = false;
+                    } else {
+                        pacman.setPacmanRotation(PACMAN_OPEN);
+                        pacmanOpenMouth = true;
+                    }
                     pacman.setCurrentDirection(nextDirection);
                 }
                 break;
@@ -152,7 +173,13 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "left":
                 if (!matrice[pacman.getPosX()][pacman.getPosY() - 1].equals(WALL_BLOCK)) {
-                    pacman.setPacmanRotation(PACMAN_REVERSE);
+                    if (pacmanOpenMouth) {
+                        pacman.setPacmanRotation(PACMAN_CLOSE_REVERSE);
+                        pacmanOpenMouth = false;
+                    } else {
+                        pacman.setPacmanRotation(PACMAN_OPEN_REVERSE);
+                        pacmanOpenMouth = true;
+                    }
                     pacman.setCurrentDirection(nextDirection);
                 }
                 break;
