@@ -27,7 +27,15 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String WALL_BLOCK = "0";
 
+    private static final String PACMAN = "2";
+
+    private static final String PACMAN_REVERSE = "3";
+
+    private static final String MIAM_BLOCK = "1";
+
     private String[][] matrice = new String[NUMBER_LINES][NUMBER_COLUMNS];
+
+    private int cptMiam;
 
     Pacman pacman;
 
@@ -45,22 +53,29 @@ public class MainActivity extends AppCompatActivity {
         pacman = new Pacman("","","2");
         ghostRandom = new Ghost("","RANDOM");
 
+        cptMiam = 0;
+
         for(int i=0; i<matrice.length; i++)
         {
-            for(int j=0; j<matrice[i].length; j++)
-            {
+            for(int j=0; j<matrice[i].length; j++) {
                 if (matrice[i][j].equals(pacman.getPacmanRotation())) {
                     pacman.setPosX(i);
                     pacman.setPosY(j);
                 }
+
                 if (matrice[i][j].equals("5")) {
                     ghostRandom.setPosX(i);
                     ghostRandom.setPosY(j);
+
+                }
+
+                if (matrice[i][j].equals(MIAM_BLOCK)) {
+                    cptMiam++;
                 }
             }
         }
 
-        Timer T=new Timer();
+        final Timer T=new Timer();
         T.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -69,12 +84,16 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
+                        if (cptMiam == 0) {
+                            T.cancel();
+                            System.out.println("J'ai gagné");
+                        }
                         count++;
                         updateView(pacman.getNextDirection());
                     }
                 });
             }
-        }, 300, 300);
+        }, 260, 260);
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(imageAdapter);
@@ -121,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "right":
                 if (!matrice[pacman.getPosX()][pacman.getPosY() + 1].equals(WALL_BLOCK)) {
-                    pacman.setPacmanRotation("2");
+                    pacman.setPacmanRotation(PACMAN);
                     pacman.setCurrentDirection(nextDirection);
                 }
                 break;
@@ -132,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "left":
                 if (!matrice[pacman.getPosX()][pacman.getPosY() - 1].equals(WALL_BLOCK)) {
-                    pacman.setPacmanRotation("3");
+                    pacman.setPacmanRotation(PACMAN_REVERSE);
                     pacman.setCurrentDirection(nextDirection);
                 }
                 break;
@@ -142,24 +161,36 @@ public class MainActivity extends AppCompatActivity {
 
             case "top":
                 if (!matrice[pacman.getPosX() - 1][pacman.getPosY()].equals(WALL_BLOCK)) {
+                    if (matrice[pacman.getPosX() - 1][pacman.getPosY()].equals(MIAM_BLOCK)) {
+                        cptMiam--;
+                    }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX() - 1][pacman.getPosY()] = pacman.getPacmanRotation();
                 }
                 break;
             case "right":
                 if (!matrice[pacman.getPosX()][pacman.getPosY() + 1].equals(WALL_BLOCK)) {
+                    if (matrice[pacman.getPosX()][pacman.getPosY() + 1].equals(MIAM_BLOCK)) {
+                        cptMiam--;
+                    }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX()][pacman.getPosY() + 1] = pacman.getPacmanRotation();
                 }
                 break;
             case "bottom":
                 if (!matrice[pacman.getPosX() + 1][pacman.getPosY()].equals(WALL_BLOCK)) {
+                    if (matrice[pacman.getPosX() + 1][pacman.getPosY()].equals(MIAM_BLOCK)) {
+                        cptMiam--;
+                    }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX() + 1][pacman.getPosY()] = pacman.getPacmanRotation();
                 }
                 break;
             case "left":
                 if (!matrice[pacman.getPosX()][pacman.getPosY() - 1].equals(WALL_BLOCK)) {
+                    if (matrice[pacman.getPosX()][pacman.getPosY() - 1].equals(MIAM_BLOCK)) {
+                        cptMiam--;
+                    }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX()][pacman.getPosY() - 1] = pacman.getPacmanRotation();
                 }

@@ -43,7 +43,7 @@ public class Ghost {
         }
 
         Random random = new Random();
-        
+
         int select = random.nextInt(dir.size());
 
         switch (dir.get(select))
