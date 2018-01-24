@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                             System.out.println("J'ai gagné");
                         }*/
                         count++;
-                        updateView(pacman.getNextDirection());
+                        updatePacman(pacman.getNextDirection());
                         imageAdapter.notifyDataSetChanged();
                     }
                 });
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
         imageAdapter.setMatrice(matrice);
     }
 
-    public void updateView(String nextDirection) {
+    public void updatePacman(String nextDirection) {
 
         for(int i=0; i<matrice.length; i++)
         {

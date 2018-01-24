@@ -26,15 +26,12 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX + 1][posY] = GHOST_2;
-                        System.out.println("bas droite chemin bas");
                     } else {
                         if(!matrice[posX][posY + 1].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX][posY + 1] = GHOST_2;
-                            System.out.println("bas droite chemin droite bis");
                         } else {
-                            System.out.println("AAA");
                         }
                     }
                 } else { //plus de chemin vers la droite
@@ -42,15 +39,12 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX][posY + 1] = GHOST_2;
-                        System.out.println("bas droite chemin droite");
                     } else {
                         if(!matrice[posX + 1][posY].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX + 1][posY] = GHOST_2;
-                            System.out.println("bas droite chemin bas bis");
                         } else {
-                            System.out.println("BBB");
                         }
                     }
                 }
@@ -61,15 +55,12 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX + 1][posY] = GHOST_2;
-                        System.out.println("bas gauche chemin bas");
                     } else {
                         if(!matrice[posX][posY - 1].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX][posY - 1] = GHOST_2;
-                            System.out.println("bas gauche chemin gauche bis");
                         } else {
-                            System.out.println("CCC");
                         }
                     }
                 } else { //plus de chemin vers la gauche
@@ -77,15 +68,12 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX][posY - 1] = GHOST_2;
-                        System.out.print("bas gauche chemin gauche");
                     } else {
                         if(!matrice[posX + 1][posY].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX + 1][posY] = GHOST_2;
-                            System.out.println("bas gauche chemin bas bis");
                         } else {
-                            System.out.println("DDD");
                         }
                     }
                 }
@@ -99,15 +87,12 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX - 1][posY] = GHOST_2;
-                        System.out.println("haut droite chemin haut");
                     } else {
                         if(!matrice[posX][posY + 1].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX][posY + 1] = GHOST_2;
-                            System.out.println("haut droite chemin droite bis");
                         } else {
-                            System.out.println("EEE");
                         }
                     }
                 } else { //plus de chemin vers la droite
@@ -115,15 +100,12 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX][posY + 1] = GHOST_2;
-                        System.out.println("haut droite chemin droite");
                     } else {
                         if(!matrice[posX - 1][posY].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX - 1][posY] = GHOST_2;
-                            System.out.println("haut droite chemin bas bis");
                         } else {
-                            System.out.println("FFF");
                         }
                     }
                 }
@@ -134,15 +116,12 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX - 1][posY] = GHOST_2;
-                        System.out.println("haut gauche chemin haut");
                     } else {
                         if(!matrice[posX][posY - 1].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX][posY - 1] = GHOST_2;
-                            System.out.println("haut gauche chemin gauche bis");
                         } else {
-                            System.out.println("GGG");
                         }
                     }
                 } else { //plus de chemin vers la gauche
@@ -150,22 +129,17 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX][posY - 1] = GHOST_2;
-                        System.out.println("haut gauche chemin gauche");
                     } else {
                         if(!matrice[posX - 1][posY].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX - 1][posY] = GHOST_2;
-                            System.out.println("haut gauche chemin haut bis");
                         } else {
-                            System.out.println("HHH");
                         }
                     }
                 }
             }
         }
-
-
 
         return matrice;
     }
