@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int NUMBER_COLUMNS = 19;
 
-    private static final int NUMBER_LINES = 6;
+    private static final int NUMBER_LINES = 10;
 
     public static final String WALL_BLOCK = "0";
 
@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        final Timer T=new Timer();
-        T.scheduleAtFixedRate(new TimerTask() {
+        final Timer T_pacman=new Timer();
+        T_pacman.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable()
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run()
                     {
                         if (cptMiam == 0) {
-                            T.cancel();
+                            T_pacman.cancel();
                             System.out.println("J'ai gagné");
                         }
                         count++;
@@ -125,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 260, 260);
 
-        final Timer T2=new Timer();
-        T2.scheduleAtFixedRate(new TimerTask() {
+        final Timer T_ghost1=new Timer();
+        T_ghost1.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable()
@@ -134,10 +134,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        if (cptMiam == 0) {
-                            T2.cancel();
-                            System.out.println("J'ai gagné");
-                        }
                         count2++;
                         updateGhost(ghostRandom);
                         imageAdapter.notifyDataSetChanged();
@@ -146,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 260, 260);
 
-        final Timer T3=new Timer();
-        T3.scheduleAtFixedRate(new TimerTask() {
+        final Timer T_ghost2=new Timer();
+        T_ghost2.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable()
@@ -156,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run()
                     {
                         if (cptMiam == 0) {
-                            T3.cancel();
+                            T_ghost2.cancel();
                             System.out.println("J'ai gagné");
                         }
                         count3++;
@@ -167,8 +163,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 260, 260);
 
-        final Timer T4=new Timer();
-        T4.scheduleAtFixedRate(new TimerTask() {
+        final Timer T_ghost3=new Timer();
+        T_ghost3.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable()
@@ -177,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run()
                     {
                         if (cptMiam == 0) {
-                            T4.cancel();
+                            T_ghost3.cancel();
                             System.out.println("J'ai gagné");
                         }
                         count4++;
