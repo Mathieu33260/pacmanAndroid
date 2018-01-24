@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     Pacman pacman;
 
-    Ghost ghostRandom;
-    Ghost ghostEvil;
-    Ghost ghostSmart;
+    GhostRandom ghostRandom;
+    GhostEvil ghostEvil;
+    //GhostRandom ghostSmart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
         imageAdapter = new ImageAdapter(this,getStr().length,matrice,NUMBER_COLUMNS);
 
         pacman = new Pacman("","", PACMAN_OPEN);
-        ghostRandom = new Ghost("","RANDOM");
-        ghostEvil = new Ghost("","EVIL");
-        ghostSmart = new Ghost("","SMART");
+        ghostRandom = new GhostRandom("","");
+        ghostEvil = new GhostEvil("","");
+        //ghostSmart = new GhostRandom("","");
 
         cptMiam = 0;
 
@@ -93,10 +93,10 @@ public class MainActivity extends AppCompatActivity {
                     ghostEvil.setPosY(j);
                 }
 
-                if (matrice[i][j].equals(GHOST_3)) {
+                /*if (matrice[i][j].equals(GHOST_3)) {
                     ghostSmart.setPosX(i);
                     ghostSmart.setPosY(j);
-                }
+                }*/
 
                 if (matrice[i][j].equals(MIAM_BLOCK)) {
                     cptMiam++;
@@ -113,10 +113,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        if (cptMiam == 0) {
+                        /*if (cptMiam == 0) {
                             T_pacman.cancel();
                             System.out.println("J'ai gagné");
-                        }
+                        }*/
                         count++;
                         updateView(pacman.getNextDirection());
                         imageAdapter.notifyDataSetChanged();
@@ -151,10 +151,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        if (cptMiam == 0) {
+                        /*if (cptMiam == 0) {
                             T_ghost2.cancel();
                             System.out.println("J'ai gagné");
-                        }
+                        }*/
                         count3++;
                         updateGhost(ghostEvil);
                         imageAdapter.notifyDataSetChanged();
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 260, 260);
 
-        final Timer T_ghost3=new Timer();
+        /*final Timer T_ghost3=new Timer();
         T_ghost3.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -172,17 +172,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        if (cptMiam == 0) {
-                            T_ghost3.cancel();
-                            System.out.println("J'ai gagné");
-                        }
+
                         count4++;
                         updateGhost(ghostSmart);
                         imageAdapter.notifyDataSetChanged();
                     }
                 });
             }
-        }, 260, 260);
+        }, 260, 260);*/
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(imageAdapter);
@@ -202,24 +199,24 @@ public class MainActivity extends AppCompatActivity {
         {
             for(int j=0; j<matrice[i].length; j++)
             {
-                if (matrice[i][j].equals(GHOST_1) && ghost.getType().equals("RANDOM")) {
+                if (matrice[i][j].equals(GHOST_1) && ghost.getClass() == GhostRandom.class) {
                     ghostRandom.setPosX(i);
                     ghostRandom.setPosY(j);
                 }
 
-                if (matrice[i][j].equals(GHOST_2) && ghost.getType().equals("EVIL")) {
+                if (matrice[i][j].equals(GHOST_2) && ghost.getClass() == GhostRandom.class) {
                     ghostEvil.setPosX(i);
                     ghostEvil.setPosY(j);
                 }
 
-                if (matrice[i][j].equals(GHOST_3) && ghost.getType().equals("SMART")) {
+                /*if (matrice[i][j].equals(GHOST_3) && ghost.getClass() == GhostRandom.class) {
                     ghostSmart.setPosX(i);
                     ghostSmart.setPosY(j);
-                }
+                }*/
             }
         }
 
-        matrice = ghost.nextDirection(matrice);
+        matrice = ghost.nextDirection(matrice,pacman.getPosX(),pacman.getPosY());
         imageAdapter.setMatrice(matrice);
     }
 

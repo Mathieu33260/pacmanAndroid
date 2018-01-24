@@ -1,139 +1,60 @@
 package com.example.mathieu.pacman;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
  * Created by Mathieu on 22/01/2018.
  */
 
-public class Ghost {
+abstract class Ghost {
 
-    private String type;
-    private int posX;
-    private int posY;
-    private String previousDirection;
+    protected int posX;
+    protected int posY;
+    protected String previousDirection;
+    protected String nextDirection;
 
-    private static final String WHITE_BLOCK = "9";
+    protected static final String WHITE_BLOCK = "9";
 
-    private static final String MIAM_BLOCK = "1";
+    protected static final String MIAM_BLOCK = "1";
 
-    private static final String WALL_BLOCK = "0";
+    protected static final String WALL_BLOCK = "0";
 
-    private static final String GHOST_1 = "6";
+    protected static final String GHOST_1 = "6";
 
-    private static final String GHOST_2 = "7";
+    protected static final String GHOST_2 = "7";
 
-    private static final String GHOST_3 = "8";
+    protected static final String GHOST_3 = "8";
 
-    Ghost(String previousDirection, String type)
+    protected static final String PACMAN_OPEN = "2";
+
+    protected static final String PACMAN_OPEN_REVERSE = "3";
+
+    protected static final String PACMAN_CLOSE = "4";
+
+    protected static final String PACMAN_CLOSE_REVERSE = "5";
+
+    Ghost(String previousDirection, String nextDirection)
     {
         this.previousDirection = previousDirection;
-        this.type = type;
+        this.nextDirection = nextDirection;
     }
 
-    public String[][] nextDirection(String[][] matrice)
-    {
-        ArrayList<String> dir = new ArrayList<>();
+    abstract String[][] nextDirection(String[][] matrice, int posXpacman, int posYpacman);
 
-        if(!matrice[posX - 1][posY].equals(WALL_BLOCK) && !previousDirection.equals("bottom"))
-        {
-            dir.add("top");
-        }
-        if(!matrice[posX][posY + 1].equals(WALL_BLOCK) && !previousDirection.equals("left"))
-        {
-            dir.add("right");
-        }
-        if(!matrice[posX + 1][posY].equals(WALL_BLOCK) && !previousDirection.equals("top"))
-        {
-            dir.add("bottom");
-        }
-        if(!matrice[posX][posY - 1].equals(WALL_BLOCK) && !previousDirection.equals("right"))
-        {
-            dir.add("left");
-        }
+    abstract int getPosX();
 
-        Random random = new Random();
+    abstract void setPosX(int posX);
 
-        int select = random.nextInt(dir.size());
+    abstract int getPosY();
 
-        String ghost = "";
+    abstract void setPosY(int posY);
 
-        switch (type)
-        {
-            case "RANDOM":
-                ghost = GHOST_1;
-                break;
+    abstract String getPreviousDirection();
 
-            case "EVIL":
-                ghost = GHOST_2;
-                break;
+    abstract void setPreviousDirection(String previousDirection);
 
-            case "SMART":
-                ghost = GHOST_3;
-                break;
-        }
+    abstract String getNextDirection();
 
-        switch (dir.get(select))
-        {
-            case "top":
-                matrice[posX][posY] = MIAM_BLOCK;
-                matrice[posX - 1][posY] = ghost;
-                break;
-
-            case "bottom":
-                matrice[posX][posY] = MIAM_BLOCK;
-                matrice[posX + 1][posY] = ghost;
-                break;
-
-            case "left":
-                matrice[posX][posY] = MIAM_BLOCK;
-                matrice[posX][posY - 1] = ghost;
-                break;
-
-            case "right":
-                matrice[posX][posY] = MIAM_BLOCK;
-                matrice[posX][posY + 1] = ghost;
-                break;
-        }
-
-        previousDirection = dir.get(select);
-
-        System.out.println(previousDirection);
-
-        return matrice;
-    }
-
-    public int getPosX() {
-        return posX;
-    }
-
-    public void setPosX(int posX) {
-        this.posX = posX;
-    }
-
-    public int getPosY() {
-        return posY;
-    }
-
-    public void setPosY(int posY) {
-        this.posY = posY;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getPreviousDirection() {
-        return previousDirection;
-    }
-
-    public void setPreviousDirection(String previousDirection) {
-        this.previousDirection = previousDirection;
-    }
+    abstract void setNextDirection(String nextDirection);
 }
