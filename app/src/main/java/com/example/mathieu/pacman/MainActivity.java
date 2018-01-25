@@ -1,5 +1,6 @@
 package com.example.mathieu.pacman;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private String[][] matrice = new String[NUMBER_LINES][NUMBER_COLUMNS];
 
     private int cptMiamBlock;
+    private int score;
 
     final Timer T_pacman=new Timer();
     final Timer T_ghostRandom=new Timer();
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         //ghostSmart = new GhostRandom("","");
 
         cptMiamBlock = 0;
+        score = 0;
 
         pacmanOpenMouth = true;
 
@@ -108,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        score = cptMiamBlock;
+
         T_pacman.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -116,10 +121,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        /*if (cptMiamBlock == 0) {
+                        if (cptMiamBlock == 0) {
                             T_pacman.cancel();
-                            System.out.println("J'ai gagné");
-                        }*/
+
+                          //  endGame();
+                        }
 
                         if ((pacman.getPosX() == ghostRandom.getPosX() && pacman.getPosY() == ghostRandom.getPosY())
                                 || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())) {
@@ -127,7 +133,10 @@ public class MainActivity extends AppCompatActivity {
                             T_pacman.cancel();
                             T_ghostRandom.cancel();
                             T_ghostEvil.cancel();
-                            System.out.println("J'ai perdu");
+
+                            score = score - cptMiamBlock;
+
+                        //    endGame();
 
                         } else {
                             count++;
@@ -139,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 200, 200);
 
-      /*  T_ghostRandom.scheduleAtFixedRate(new TimerTask() {
+        T_ghostRandom.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable()
@@ -162,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 200, 200); */
+        }, 200, 200);
 
         T_ghostEvil.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -395,6 +404,11 @@ public class MainActivity extends AppCompatActivity {
         }
         return outputStream.toString();
     }
+
+  /*  public void endGame() {
+        Intent intent = new Intent(MainActivity.class, ResultActivity.class);
+        intent.putExtra("SCORE", score);
+    } */
 
     public void left_button_click(View view) {
         pacman.setNextDirection("left");
