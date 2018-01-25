@@ -27,12 +27,154 @@ public class GhostSmart extends Ghost{
     {
         super(previousDirection,nextDirection);
         intersections = intersections(matrice);
+        tempBlock = "";
     }
 
     @Override
     String[][] nextDirection(String[][] matrice, int posXpacman, int posYpacman)
     {
         List<int[]> list = intersectionsOrdo(posXpacman,posYpacman);
+
+        if(list.get(0)[0] - posX >= 0) //bas
+        {
+            if(list.get(0)[1] - posY >= 0) //droite
+            {
+                if(Math.abs(list.get(0)[0] - posX) > Math.abs(list.get(0)[1] - posY)) //plus de chemin vers le bas
+                {
+                    if(!matrice[posX + 1][posY].equals(WALL_BLOCK))
+                    {
+                        setTempBlock(matrice, "bottom");
+                        matrice[posX + 1][posY] = GHOST_3;
+                        posX++;
+                    } else {
+                        if(!matrice[posX][posY + 1].equals(WALL_BLOCK))
+                        {
+                            setTempBlock(matrice, "right");
+                            matrice[posX][posY + 1] = GHOST_3;
+                            posY++;
+                        } else {
+                        }
+                    }
+                } else { //plus de chemin vers la droite
+                    if(!matrice[posX][posY + 1].equals(WALL_BLOCK))
+                    {
+                        setTempBlock(matrice, "right");
+                        matrice[posX][posY + 1] = GHOST_3;
+                        posY++;
+                    } else {
+                        if(!matrice[posX + 1][posY].equals(WALL_BLOCK))
+                        {
+                            setTempBlock(matrice, "bottom");
+                            matrice[posX + 1][posY] = GHOST_3;
+                            posX++;
+                        } else {
+                        }
+                    }
+                }
+            } else { //gauche
+                if(Math.abs(list.get(0)[0] - posX) > Math.abs(list.get(0)[1] - posY)) //plus de chemin vers le bas
+                {
+                    if(!matrice[posX + 1][posY].equals(WALL_BLOCK))
+                    {
+                        setTempBlock(matrice, "bottom");
+                        matrice[posX + 1][posY] = GHOST_3;
+                        posX++;
+                    } else {
+                        if(!matrice[posX][posY - 1].equals(WALL_BLOCK))
+                        {
+                            setTempBlock(matrice, "left");
+                            matrice[posX][posY - 1] = GHOST_3;
+                            posY--;
+                        } else {
+                        }
+                    }
+                } else { //plus de chemin vers la gauche
+                    if(!matrice[posX][posY - 1].equals(WALL_BLOCK))
+                    {
+                        setTempBlock(matrice, "left");
+                        matrice[posX][posY - 1] = GHOST_3;
+                        posY--;
+                    } else {
+                        if(!matrice[posX + 1][posY].equals(WALL_BLOCK))
+                        {
+                            setTempBlock(matrice, "bottom");
+                            matrice[posX + 1][posY] = GHOST_3;
+                            posX++;
+                        } else {
+                        }
+                    }
+                }
+            }
+        } else { //haut
+            if(list.get(0)[1] - posY > 0) //droite
+            {
+                if(Math.abs(list.get(0)[0] - posX) > Math.abs(list.get(0)[1] - posY)) //plus de chemin vers le haut
+                {
+                    if(!matrice[posX - 1][posY].equals(WALL_BLOCK))
+                    {
+                        setTempBlock(matrice, "top");
+                        matrice[posX - 1][posY] = GHOST_3;
+                        posX--;
+                    } else {
+                        if(!matrice[posX][posY + 1].equals(WALL_BLOCK))
+                        {
+                            setTempBlock(matrice, "right");
+                            matrice[posX][posY + 1] = GHOST_3;
+                            posY++;
+                        } else {
+                        }
+                    }
+                } else { //plus de chemin vers la droite
+                    if(!matrice[posX][posY + 1].equals(WALL_BLOCK))
+                    {
+                        setTempBlock(matrice, "right");
+                        matrice[posX][posY + 1] = GHOST_3;
+                        posY++;
+                    } else {
+                        if(!matrice[posX - 1][posY].equals(WALL_BLOCK))
+                        {
+                            setTempBlock(matrice, "top");
+                            matrice[posX - 1][posY] = GHOST_3;
+                            posX--;
+                        } else {
+                        }
+                    }
+                }
+            } else { //gauche
+                if(Math.abs(list.get(0)[0] - posX) > Math.abs(list.get(0)[1] - posY)) //plus de chemin vers le haut
+                {
+                    if(!matrice[posX - 1][posY].equals(WALL_BLOCK))
+                    {
+                        setTempBlock(matrice, "top");
+                        matrice[posX - 1][posY] = GHOST_3;
+                        posX--;
+                    } else {
+                        if(!matrice[posX][posY - 1].equals(WALL_BLOCK))
+                        {
+                            setTempBlock(matrice, "left");
+                            matrice[posX][posY - 1] = GHOST_3;
+                            posY--;
+                        } else {
+                        }
+                    }
+                } else { //plus de chemin vers la gauche
+                    if(!matrice[posX][posY - 1].equals(WALL_BLOCK))
+                    {
+                        setTempBlock(matrice, "left");
+                        matrice[posX][posY - 1] = GHOST_3;
+                        posY--;
+                    } else {
+                        if(!matrice[posX - 1][posY].equals(WALL_BLOCK))
+                        {
+                            setTempBlock(matrice, "top");
+                            matrice[posX - 1][posY] = GHOST_3;
+                            posX--;
+                        } else {
+                        }
+                    }
+                }
+            }
+        }
 
         return matrice;
     }
@@ -42,9 +184,9 @@ public class GhostSmart extends Ghost{
         List<int[]> list = new ArrayList<>();
 
         int cpt;
-        for(int i=0; i<matrice.length; i++)
+        for(int i=1; i<matrice.length-1; i++)
         {
-            for(int j=0; j<matrice[i].length; j++)
+            for(int j=1; j<matrice[i].length-1; j++)
             {
                 cpt = 0;
                 if(!Objects.equals(matrice[i - 1][j], WALL_BLOCK))
@@ -151,7 +293,36 @@ public class GhostSmart extends Ghost{
 
     @Override
     void setTempBlock(String[][] matrice, String direction) {
-
+        if (tempBlock.equals("")) {
+            matrice[posX][posY] = MIAM_BLOCK;
+        } else {
+            matrice[posX][posY] = tempBlock;
+        }
+        if (direction.equals("top")) {
+            if (matrice[posX - 1][posY].equals(WHITE_BLOCK)) {
+                tempBlock = WHITE_BLOCK;
+            } else {
+                tempBlock = MIAM_BLOCK;
+            }
+        } else if (direction.equals("bottom")) {
+            if (matrice[posX + 1][posY].equals(WHITE_BLOCK)) {
+                tempBlock = WHITE_BLOCK;
+            } else {
+                tempBlock = MIAM_BLOCK;
+            }
+        } else if (direction.equals("left")) {
+            if (matrice[posX][posY - 1].equals(WHITE_BLOCK)) {
+                tempBlock = WHITE_BLOCK;
+            } else {
+                tempBlock = MIAM_BLOCK;
+            }
+        } else if (direction.equals("right")) {
+            if (matrice[posX][posY + 1].equals(WHITE_BLOCK)) {
+                tempBlock = WHITE_BLOCK;
+            } else {
+                tempBlock = MIAM_BLOCK;
+            }
+        }
     }
 
     @Override

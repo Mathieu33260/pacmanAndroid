@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     GhostRandom ghostRandom;
     GhostEvil ghostEvil;
-    //GhostRandom ghostSmart;
+    GhostSmart ghostSmart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         pacman = new Pacman("","", PACMAN_OPEN);
         ghostRandom = new GhostRandom("","");
         ghostEvil = new GhostEvil("","");
-        //ghostSmart = new GhostRandom("","");
+        ghostSmart = new GhostSmart("","",matrice);
 
         cptMiamBlock = 0;
 
@@ -97,10 +97,10 @@ public class MainActivity extends AppCompatActivity {
                     ghostEvil.setPosY(j);
                 }
 
-                /*if (matrice[i][j].equals(GHOST_3)) {
+                if (matrice[i][j].equals(GHOST_3)) {
                     ghostSmart.setPosX(i);
                     ghostSmart.setPosY(j);
-                }*/
+                }
 
                 if (matrice[i][j].equals(MIAM_BLOCK)) {
                     cptMiamBlock++;
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 400, 400);
 
-        /*final Timer T_ghost3=new Timer();
+        final Timer T_ghost3=new Timer();
         T_ghost3.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 260, 260);*/
+        }, 260, 260);
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(imageAdapter);
@@ -235,10 +235,10 @@ public class MainActivity extends AppCompatActivity {
                     ghostEvil.setPosY(j);
                 }
 
-                /*if (matrice[i][j].equals(GHOST_3) && ghost.getClass() == GhostRandom.class) {
+                if (matrice[i][j].equals(GHOST_3) && ghost.getClass() == GhostRandom.class) {
                     ghostSmart.setPosX(i);
                     ghostSmart.setPosY(j);
-                }*/
+                }
             }
         }
 
