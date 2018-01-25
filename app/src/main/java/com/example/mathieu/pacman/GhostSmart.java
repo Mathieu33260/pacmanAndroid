@@ -1,138 +1,179 @@
 package com.example.mathieu.pacman;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 import java.util.Random;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Created by Mathieu on 22/01/2018.
  */
 
-public class GhostSmart {
+public class GhostSmart extends Ghost{
 
-    private String type;
-    private int posX;
-    private int posY;
-    private String previousDirection;
+    private List<int[]> intersections;
 
-    private static final String WHITE_BLOCK = "9";
-
-    private static final String MIAM_BLOCK = "1";
-
-    private static final String WALL_BLOCK = "0";
-
-    private static final String GHOST_1 = "6";
-
-    private static final String GHOST_2 = "7";
-
-    private static final String GHOST_3 = "8";
-
-    GhostSmart(String previousDirection, String type)
+    GhostSmart(String previousDirection, String nextDirection, String[][] matrice)
     {
-        this.previousDirection = previousDirection;
-        this.type = type;
+        super(previousDirection,nextDirection);
+        intersections = intersections(matrice);
     }
 
-    public String[][] nextDirection(String[][] matrice)
+    @Override
+    String[][] nextDirection(String[][] matrice, int posXpacman, int posYpacman)
     {
-        ArrayList<String> dir = new ArrayList<>();
-
-        if(!matrice[posX - 1][posY].equals(WALL_BLOCK) && !previousDirection.equals("bottom"))
-        {
-            dir.add("top");
-        }
-        if(!matrice[posX][posY + 1].equals(WALL_BLOCK) && !previousDirection.equals("left"))
-        {
-            dir.add("right");
-        }
-        if(!matrice[posX + 1][posY].equals(WALL_BLOCK) && !previousDirection.equals("top"))
-        {
-            dir.add("bottom");
-        }
-        if(!matrice[posX][posY - 1].equals(WALL_BLOCK) && !previousDirection.equals("right"))
-        {
-            dir.add("left");
-        }
-
-        Random random = new Random();
-
-        int select = random.nextInt(dir.size());
-
-        String ghost = "";
-
-        switch (type)
-        {
-            case "RANDOM":
-                ghost = GHOST_1;
-                break;
-
-            case "EVIL":
-                ghost = GHOST_2;
-                break;
-
-            case "SMART":
-                ghost = GHOST_3;
-                break;
-        }
-
-        switch (dir.get(select))
-        {
-            case "top":
-                matrice[posX][posY] = MIAM_BLOCK;
-                matrice[posX - 1][posY] = ghost;
-                break;
-
-            case "bottom":
-                matrice[posX][posY] = MIAM_BLOCK;
-                matrice[posX + 1][posY] = ghost;
-                break;
-
-            case "left":
-                matrice[posX][posY] = MIAM_BLOCK;
-                matrice[posX][posY - 1] = ghost;
-                break;
-
-            case "right":
-                matrice[posX][posY] = MIAM_BLOCK;
-                matrice[posX][posY + 1] = ghost;
-                break;
-        }
-
-        previousDirection = dir.get(select);
-
-        System.out.println(previousDirection);
+        List<int[]> list = intersectionsOrdo(posXpacman,posYpacman);
 
         return matrice;
     }
 
-    public int getPosX() {
+    public List<int[]> intersections(String[][] matrice)
+    {
+        List<int[]> list = new ArrayList<>();
+
+        int cpt;
+        for(int i=0; i<matrice.length; i++)
+        {
+            for(int j=0; j<matrice[i].length; j++)
+            {
+                cpt = 0;
+                if(!Objects.equals(matrice[i - 1][j], WALL_BLOCK))
+                {
+                    cpt++;
+                }
+                if(!Objects.equals(matrice[i + 1][j], WALL_BLOCK))
+                {
+                    cpt++;
+                }
+                if(!Objects.equals(matrice[i][j - 1], WALL_BLOCK))
+                {
+                    cpt++;
+                }
+                if(!Objects.equals(matrice[i][j + 1], WALL_BLOCK))
+                {
+                    cpt++;
+                }
+
+                if(cpt >= 3)
+                {
+                    int tab[] = {i,j};
+                    list.add(tab);
+                }
+            }
+        }
+        return list;
+    }
+
+    public List<int[]> intersectionsOrdo(int posXpacman, int posYpacman)
+    {
+        List<int[]> list = new ArrayList<>();
+
+        Map<int[],Double> map = new HashMap<>();
+
+        for(int[] coord:intersections)
+        {
+            double dist = Math.sqrt(((coord[1] - coord[0]) * (coord[1] - coord[0])) +
+                    ((posYpacman - posXpacman) * (posYpacman - posXpacman)));
+            map.put(coord,dist);
+        }
+
+        map = sortMapByValues(map);
+
+        for(Map.Entry<int[],Double> entry: map.entrySet()) {
+            System.out.println(entry.getKey()[0] + " " + entry.getKey()[1] + " " + entry.getValue());
+            list.add(entry.getKey());
+        }
+
+        return list;
+    }
+
+    private static Map<int[], Double> sortMapByValues(Map<int[],Double> aMap) {
+
+        Set<Entry<int[],Double>> mapEntries = aMap.entrySet();
+
+        // used linked list to sort, because insertion of elements in linked list is faster than an array list.
+        List<Entry<int[],Double>> aList = new LinkedList<Entry<int[],Double>>(mapEntries);
+
+        // sorting the List
+        Collections.sort(aList, new Comparator<Entry<int[],Double>>() {
+
+            @Override
+            public int compare(Entry<int[],Double> ele1,
+                               Entry<int[],Double> ele2) {
+
+                return ele1.getValue().compareTo(ele2.getValue());
+            }
+        });
+
+        // Storing the list into Linked HashMap to preserve the order of insertion.
+        Map<int[],Double> aMap2 = new LinkedHashMap<int[],Double>();
+        for(Entry<int[],Double> entry: aList) {
+            aMap2.put(entry.getKey(), entry.getValue());
+        }
+
+        return aMap2;
+    }
+
+    @Override
+    int getPosX() {
         return posX;
     }
 
-    public void setPosX(int posX) {
+    @Override
+    void setPosX(int posX) {
         this.posX = posX;
     }
 
-    public int getPosY() {
+    @Override
+    int getPosY() {
         return posY;
     }
 
-    public void setPosY(int posY) {
+    @Override
+    void setPosY(int posY) {
         this.posY = posY;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getPreviousDirection() {
+    @Override
+    String getPreviousDirection() {
         return previousDirection;
     }
 
-    public void setPreviousDirection(String previousDirection) {
+    @Override
+    void setTempBlock(String[][] matrice, String direction) {
+
+    }
+
+    @Override
+    void setPreviousDirection(String previousDirection) {
         this.previousDirection = previousDirection;
+    }
+
+    @Override
+    String getNextDirection() {
+        return nextDirection;
+    }
+
+    @Override
+    void setNextDirection(String nextDirection) {
+        this.nextDirection = nextDirection;
+    }
+
+    public List<int[]> getIntersections() {
+        return intersections;
+    }
+
+    public void setIntersections(List<int[]> intersections) {
+        this.intersections = intersections;
     }
 }
