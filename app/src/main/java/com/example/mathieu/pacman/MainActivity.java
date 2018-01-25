@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     final Timer T_pacman=new Timer();
     final Timer T_ghostRandom=new Timer();
     final Timer T_ghostEvil=new Timer();
+    final Timer T_ghostSmart=new Timer();
 
     private boolean pacmanOpenMouth;
 
@@ -132,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
                             T_pacman.cancel();
                             T_ghostRandom.cancel();
+                            T_ghostSmart.cancel();
                             T_ghostEvil.cancel();
 
                             score = score - cptMiamBlock;
@@ -161,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
                             T_ghostRandom.cancel();
                             T_ghostEvil.cancel();
+                            T_ghostSmart.cancel();
                             T_pacman.cancel();
 
                         } else {
@@ -171,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 200, 200);
+        }, 500, 500);
 
         T_ghostEvil.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -186,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
                             T_ghostEvil.cancel();
                             T_ghostRandom.cancel();
+                            T_ghostSmart.cancel();
                             T_pacman.cancel();
 
                         } else {
@@ -196,10 +200,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 400, 400);
+        }, 500, 500);
 
-        final Timer T_ghost3=new Timer();
-        T_ghost3.scheduleAtFixedRate(new TimerTask() {
+        T_ghostSmart.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable()
@@ -214,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 260, 260);
+        }, 500, 500);
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(imageAdapter);
@@ -234,17 +237,17 @@ public class MainActivity extends AppCompatActivity {
         {
             for(int j=0; j<matrice[i].length; j++)
             {
-                if (matrice[i][j].equals(GHOST_1) && ghost.getClass() == GhostRandom.class) {
+                if (matrice[i][j].equals(GHOST_1)) {
                     ghostRandom.setPosX(i);
                     ghostRandom.setPosY(j);
                 }
 
-                if (matrice[i][j].equals(GHOST_2) && ghost.getClass() == GhostRandom.class) {
+                if (matrice[i][j].equals(GHOST_2)) {
                     ghostEvil.setPosX(i);
                     ghostEvil.setPosY(j);
                 }
 
-                if (matrice[i][j].equals(GHOST_3) && ghost.getClass() == GhostRandom.class) {
+                if (matrice[i][j].equals(GHOST_3)) {
                     ghostSmart.setPosX(i);
                     ghostSmart.setPosY(j);
                 }

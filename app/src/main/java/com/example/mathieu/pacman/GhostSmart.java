@@ -35,11 +35,11 @@ public class GhostSmart extends Ghost{
     {
         List<int[]> list = intersectionsOrdo(posXpacman,posYpacman);
 
-        if(list.get(0)[0] - posX >= 0) //bas
+        if(posXpacman - list.get(0)[0] >= 0) //bas
         {
-            if(list.get(0)[1] - posY >= 0) //droite
+            if(posYpacman - list.get(0)[1] >= 0) //droite
             {
-                if(Math.abs(list.get(0)[0] - posX) > Math.abs(list.get(0)[1] - posY)) //plus de chemin vers le bas
+                if(Math.abs(posXpacman - list.get(0)[0]) > Math.abs(posYpacman - list.get(0)[1])) //plus de chemin vers le bas
                 {
                     if(!matrice[posX + 1][posY].equals(WALL_BLOCK))
                     {
@@ -72,7 +72,7 @@ public class GhostSmart extends Ghost{
                     }
                 }
             } else { //gauche
-                if(Math.abs(list.get(0)[0] - posX) > Math.abs(list.get(0)[1] - posY)) //plus de chemin vers le bas
+                if(Math.abs(posXpacman - list.get(0)[0]) > Math.abs(posYpacman - list.get(0)[1])) //plus de chemin vers le bas
                 {
                     if(!matrice[posX + 1][posY].equals(WALL_BLOCK))
                     {
@@ -106,9 +106,9 @@ public class GhostSmart extends Ghost{
                 }
             }
         } else { //haut
-            if(list.get(0)[1] - posY > 0) //droite
+            if(list.get(0)[1] - list.get(0)[1] > 0) //droite
             {
-                if(Math.abs(list.get(0)[0] - posX) > Math.abs(list.get(0)[1] - posY)) //plus de chemin vers le haut
+                if(Math.abs(posXpacman - list.get(0)[0]) > Math.abs(posYpacman - list.get(0)[1])) //plus de chemin vers le haut
                 {
                     if(!matrice[posX - 1][posY].equals(WALL_BLOCK))
                     {
@@ -141,7 +141,7 @@ public class GhostSmart extends Ghost{
                     }
                 }
             } else { //gauche
-                if(Math.abs(list.get(0)[0] - posX) > Math.abs(list.get(0)[1] - posY)) //plus de chemin vers le haut
+                if(Math.abs(posXpacman - list.get(0)[0]) > Math.abs(posYpacman - list.get(0)[1])) //plus de chemin vers le haut
                 {
                     if(!matrice[posX - 1][posY].equals(WALL_BLOCK))
                     {
@@ -189,21 +189,24 @@ public class GhostSmart extends Ghost{
             for(int j=1; j<matrice[i].length-1; j++)
             {
                 cpt = 0;
-                if(!Objects.equals(matrice[i - 1][j], WALL_BLOCK))
+                if(!Objects.equals(matrice[i][j], WALL_BLOCK))
                 {
-                    cpt++;
-                }
-                if(!Objects.equals(matrice[i + 1][j], WALL_BLOCK))
-                {
-                    cpt++;
-                }
-                if(!Objects.equals(matrice[i][j - 1], WALL_BLOCK))
-                {
-                    cpt++;
-                }
-                if(!Objects.equals(matrice[i][j + 1], WALL_BLOCK))
-                {
-                    cpt++;
+                    if(!Objects.equals(matrice[i - 1][j], WALL_BLOCK))
+                    {
+                        cpt++;
+                    }
+                    if(!Objects.equals(matrice[i + 1][j], WALL_BLOCK))
+                    {
+                        cpt++;
+                    }
+                    if(!Objects.equals(matrice[i][j - 1], WALL_BLOCK))
+                    {
+                        cpt++;
+                    }
+                    if(!Objects.equals(matrice[i][j + 1], WALL_BLOCK))
+                    {
+                        cpt++;
+                    }
                 }
 
                 if(cpt >= 3)
@@ -229,9 +232,9 @@ public class GhostSmart extends Ghost{
             map.put(coord,dist);
         }
 
-        map = sortMapByValues(map);
+        Map<int[],Double> map2 = sortMapByValues(map);
 
-        for(Map.Entry<int[],Double> entry: map.entrySet()) {
+        for(Map.Entry<int[],Double> entry: map2.entrySet()) {
             System.out.println(entry.getKey()[0] + " " + entry.getKey()[1] + " " + entry.getValue());
             list.add(entry.getKey());
         }
@@ -239,7 +242,7 @@ public class GhostSmart extends Ghost{
         return list;
     }
 
-    private static Map<int[], Double> sortMapByValues(Map<int[],Double> aMap) {
+    private Map<int[], Double> sortMapByValues(Map<int[],Double> aMap) {
 
         Set<Entry<int[],Double>> mapEntries = aMap.entrySet();
 
