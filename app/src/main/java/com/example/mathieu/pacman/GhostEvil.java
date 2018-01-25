@@ -26,11 +26,13 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX + 1][posY] = GHOST_2;
+                        posX++;
                     } else {
                         if(!matrice[posX][posY + 1].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX][posY + 1] = GHOST_2;
+                            posY++;
                         } else {
                         }
                     }
@@ -39,11 +41,13 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX][posY + 1] = GHOST_2;
+                        posY++;
                     } else {
                         if(!matrice[posX + 1][posY].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX + 1][posY] = GHOST_2;
+                            posX++;
                         } else {
                         }
                     }
@@ -55,11 +59,13 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX + 1][posY] = GHOST_2;
+                        posX++;
                     } else {
                         if(!matrice[posX][posY - 1].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX][posY - 1] = GHOST_2;
+                            posY--;
                         } else {
                         }
                     }
@@ -68,11 +74,13 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX][posY - 1] = GHOST_2;
+                        posY--;
                     } else {
                         if(!matrice[posX + 1][posY].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX + 1][posY] = GHOST_2;
+                            posX++;
                         } else {
                         }
                     }
@@ -87,11 +95,13 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX - 1][posY] = GHOST_2;
+                        posX--;
                     } else {
                         if(!matrice[posX][posY + 1].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX][posY + 1] = GHOST_2;
+                            posY++;
                         } else {
                         }
                     }
@@ -100,11 +110,13 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX][posY + 1] = GHOST_2;
+                        posY++;
                     } else {
                         if(!matrice[posX - 1][posY].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX - 1][posY] = GHOST_2;
+                            posX--;
                         } else {
                         }
                     }
@@ -116,11 +128,13 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX - 1][posY] = GHOST_2;
+                        posX--;
                     } else {
                         if(!matrice[posX][posY - 1].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX][posY - 1] = GHOST_2;
+                            posY--;
                         } else {
                         }
                     }
@@ -129,11 +143,13 @@ public class GhostEvil extends Ghost{
                     {
                         matrice[posX][posY] = MIAM_BLOCK;
                         matrice[posX][posY - 1] = GHOST_2;
+                        posY--;
                     } else {
                         if(!matrice[posX - 1][posY].equals(WALL_BLOCK))
                         {
                             matrice[posX][posY] = MIAM_BLOCK;
                             matrice[posX - 1][posY] = GHOST_2;
+                            posX--;
                         } else {
                         }
                     }

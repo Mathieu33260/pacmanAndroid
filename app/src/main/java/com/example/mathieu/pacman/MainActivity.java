@@ -50,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
     private int cptMiam;
 
+    final Timer T_pacman=new Timer();
+    final Timer T_ghostRandom=new Timer();
+    final Timer T_ghostEvil=new Timer();
+
     private boolean pacmanOpenMouth;
 
     Pacman pacman;
@@ -104,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        final Timer T_pacman=new Timer();
         T_pacman.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -117,16 +120,26 @@ public class MainActivity extends AppCompatActivity {
                             T_pacman.cancel();
                             System.out.println("J'ai gagné");
                         }*/
-                        count++;
-                        updatePacman(pacman.getNextDirection());
-                        imageAdapter.notifyDataSetChanged();
+
+                        if ((pacman.getPosX() == ghostRandom.getPosX() && pacman.getPosY() == ghostRandom.getPosY())
+                                || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())) {
+
+                            T_pacman.cancel();
+                            T_ghostRandom.cancel();
+                            T_ghostEvil.cancel();
+                            System.out.println("J'ai perdu");
+
+                        } else {
+                            count++;
+                            updatePacman(pacman.getNextDirection());
+                            imageAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
             }
-        }, 260, 260);
+        }, 200, 200);
 
-        final Timer T_ghost1=new Timer();
-        T_ghost1.scheduleAtFixedRate(new TimerTask() {
+        T_ghostRandom.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable()
@@ -134,16 +147,24 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        count2++;
-                        updateGhost(ghostRandom);
-                        imageAdapter.notifyDataSetChanged();
+                        if ((pacman.getPosX() == ghostRandom.getPosX() && pacman.getPosY() == ghostRandom.getPosY())
+                                || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())) {
+
+                            T_ghostRandom.cancel();
+                            T_ghostEvil.cancel();
+                            T_pacman.cancel();
+
+                        } else {
+                            count2++;
+                            updateGhost(ghostRandom);
+                            imageAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
             }
-        }, 260, 260);
+        }, 200, 200);
 
-        final Timer T_ghost2=new Timer();
-        T_ghost2.scheduleAtFixedRate(new TimerTask() {
+        T_ghostEvil.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable()
@@ -151,17 +172,22 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        /*if (cptMiam == 0) {
-                            T_ghost2.cancel();
-                            System.out.println("J'ai gagné");
-                        }*/
-                        count3++;
-                        updateGhost(ghostEvil);
-                        imageAdapter.notifyDataSetChanged();
+                        if ((pacman.getPosX() == ghostRandom.getPosX() && pacman.getPosY() == ghostRandom.getPosY())
+                                || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())) {
+
+                            T_ghostEvil.cancel();
+                            T_ghostRandom.cancel();
+                            T_pacman.cancel();
+
+                        } else {
+                            count3++;
+                            updateGhost(ghostEvil);
+                            imageAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
             }
-        }, 260, 260);
+        }, 200, 200);
 
         /*final Timer T_ghost3=new Timer();
         T_ghost3.scheduleAtFixedRate(new TimerTask() {
@@ -284,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX() - 1][pacman.getPosY()] = pacman.getPacmanRotation();
+                    pacman.setPosX(pacman.getPosX() - 1);
                 }
                 break;
             case "right":
@@ -293,6 +320,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX()][pacman.getPosY() + 1] = pacman.getPacmanRotation();
+                    pacman.setPosY(pacman.getPosY() + 1);
                 }
                 break;
             case "bottom":
@@ -302,6 +330,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX() + 1][pacman.getPosY()] = pacman.getPacmanRotation();
+                    pacman.setPosX(pacman.getPosX() + 1);
                 }
                 break;
             case "left":
@@ -311,6 +340,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX()][pacman.getPosY() - 1] = pacman.getPacmanRotation();
+                    pacman.setPosY(pacman.getPosY() - 1);
                 }
                 break;
         }

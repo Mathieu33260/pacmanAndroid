@@ -6,6 +6,30 @@ package com.example.mathieu.pacman;
 
 public class Pacman {
 
+    private static final int NUMBER_COLUMNS = 19;
+
+    private static final int NUMBER_LINES = 10;
+
+    public static final String WALL_BLOCK = "0";
+
+    public static final String MIAM_BLOCK = "1";
+
+    public static final String PACMAN_OPEN = "2";
+
+    public static final String PACMAN_OPEN_REVERSE = "3";
+
+    public static final String PACMAN_CLOSE = "4";
+
+    public static final String PACMAN_CLOSE_REVERSE = "5";
+
+    public static final String GHOST_1 = "6";
+
+    public static final String GHOST_2 = "7";
+
+    public static final String GHOST_3 = "8";
+
+    public static final String WHITE_BLOCK = "9";
+
     private int posX;
     private int posY;
     private String pacmanRotation;

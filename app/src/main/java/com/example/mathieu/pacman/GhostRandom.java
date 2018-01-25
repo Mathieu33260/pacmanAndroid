@@ -45,21 +45,25 @@ public class GhostRandom extends Ghost{
             case "top":
                 matrice[posX][posY] = MIAM_BLOCK;
                 matrice[posX - 1][posY] = GHOST_1;
+                posX--;
                 break;
 
             case "bottom":
                 matrice[posX][posY] = MIAM_BLOCK;
                 matrice[posX + 1][posY] = GHOST_1;
+                posX++;
                 break;
 
             case "left":
                 matrice[posX][posY] = MIAM_BLOCK;
                 matrice[posX][posY - 1] = GHOST_1;
+                posY--;
                 break;
 
             case "right":
                 matrice[posX][posY] = MIAM_BLOCK;
                 matrice[posX][posY + 1] = GHOST_1;
+                posY++;
                 break;
         }
 
