@@ -14,6 +14,8 @@ abstract class Ghost {
     protected String previousDirection;
     protected String nextDirection;
 
+    protected String tempBlock;
+
     protected static final String WHITE_BLOCK = "9";
 
     protected static final String MIAM_BLOCK = "1";
@@ -51,6 +53,8 @@ abstract class Ghost {
     abstract void setPosY(int posY);
 
     abstract String getPreviousDirection();
+
+    abstract void setTempBlock(String[][] matrice, String direction);
 
     abstract void setPreviousDirection(String previousDirection);
 

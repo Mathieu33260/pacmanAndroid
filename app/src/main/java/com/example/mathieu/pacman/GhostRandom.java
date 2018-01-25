@@ -13,6 +13,8 @@ public class GhostRandom extends Ghost{
     GhostRandom(String previousDirection, String nextDirection)
     {
         super(previousDirection,nextDirection);
+
+        tempBlock = "";
     }
 
     public String[][] nextDirection(String[][] matrice, int posXpacman, int posYpacman)
@@ -43,25 +45,25 @@ public class GhostRandom extends Ghost{
         switch (dir.get(select))
         {
             case "top":
-                matrice[posX][posY] = MIAM_BLOCK;
+                setTempBlock(matrice, "top");
                 matrice[posX - 1][posY] = GHOST_1;
                 posX--;
                 break;
 
             case "bottom":
-                matrice[posX][posY] = MIAM_BLOCK;
+                setTempBlock(matrice, "bottom");
                 matrice[posX + 1][posY] = GHOST_1;
                 posX++;
                 break;
 
             case "left":
-                matrice[posX][posY] = MIAM_BLOCK;
+                setTempBlock(matrice, "left");
                 matrice[posX][posY - 1] = GHOST_1;
                 posY--;
                 break;
 
             case "right":
-                matrice[posX][posY] = MIAM_BLOCK;
+                setTempBlock(matrice, "right");
                 matrice[posX][posY + 1] = GHOST_1;
                 posY++;
                 break;
@@ -110,5 +112,40 @@ public class GhostRandom extends Ghost{
     @Override
     void setNextDirection(String nextDirection) {
         this.nextDirection = nextDirection;
+    }
+
+    @Override
+    void setTempBlock(String[][] matrice, String direction) {
+        if (tempBlock.equals("")) {
+            matrice[posX][posY] = MIAM_BLOCK;
+        } else {
+            matrice[posX][posY] = tempBlock;
+        }
+        if (direction.equals("top")) {
+            if (matrice[posX - 1][posY].equals(WHITE_BLOCK)) {
+                tempBlock = WHITE_BLOCK;
+            } else {
+                tempBlock = MIAM_BLOCK;
+            }
+        } else if (direction.equals("bottom")) {
+            if (matrice[posX + 1][posY].equals(WHITE_BLOCK)) {
+                tempBlock = WHITE_BLOCK;
+            } else {
+                tempBlock = MIAM_BLOCK;
+            }
+        } else if (direction.equals("left")) {
+            if (matrice[posX][posY - 1].equals(WHITE_BLOCK)) {
+                tempBlock = WHITE_BLOCK;
+            } else {
+                tempBlock = MIAM_BLOCK;
+            }
+        } else if (direction.equals("right")) {
+            if (matrice[posX][posY + 1].equals(WHITE_BLOCK)) {
+                tempBlock = WHITE_BLOCK;
+            } else {
+                tempBlock = MIAM_BLOCK;
+            }
+        }
+
     }
 }

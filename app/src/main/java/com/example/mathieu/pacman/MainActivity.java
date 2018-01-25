@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String[][] matrice = new String[NUMBER_LINES][NUMBER_COLUMNS];
 
-    private int cptMiam;
+    private int cptMiamBlock;
 
     final Timer T_pacman=new Timer();
     final Timer T_ghostRandom=new Timer();
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         ghostEvil = new GhostEvil("","");
         //ghostSmart = new GhostRandom("","");
 
-        cptMiam = 0;
+        cptMiamBlock = 0;
 
         pacmanOpenMouth = true;
 
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 }*/
 
                 if (matrice[i][j].equals(MIAM_BLOCK)) {
-                    cptMiam++;
+                    cptMiamBlock++;
                 }
             }
         }
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        /*if (cptMiam == 0) {
+                        /*if (cptMiamBlock == 0) {
                             T_pacman.cancel();
                             System.out.println("J'ai gagné");
                         }*/
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 200, 200);
 
-        T_ghostRandom.scheduleAtFixedRate(new TimerTask() {
+      /*  T_ghostRandom.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable()
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 200, 200);
+        }, 200, 200); */
 
         T_ghostEvil.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 200, 200);
+        }, 400, 400);
 
         /*final Timer T_ghost3=new Timer();
         T_ghost3.scheduleAtFixedRate(new TimerTask() {
@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
             case "top":
                 if (!matrice[pacman.getPosX() - 1][pacman.getPosY()].equals(WALL_BLOCK)) {
                     if (matrice[pacman.getPosX() - 1][pacman.getPosY()].equals(MIAM_BLOCK)) {
-                        cptMiam--;
+                        cptMiamBlock--;
                     }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX() - 1][pacman.getPosY()] = pacman.getPacmanRotation();
@@ -316,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
             case "right":
                 if (!matrice[pacman.getPosX()][pacman.getPosY() + 1].equals(WALL_BLOCK)) {
                     if (matrice[pacman.getPosX()][pacman.getPosY() + 1].equals(MIAM_BLOCK)) {
-                        cptMiam--;
+                        cptMiamBlock--;
                     }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX()][pacman.getPosY() + 1] = pacman.getPacmanRotation();
@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
             case "bottom":
                 if (!matrice[pacman.getPosX() + 1][pacman.getPosY()].equals(WALL_BLOCK)) {
                     if (matrice[pacman.getPosX() + 1][pacman.getPosY()].equals(MIAM_BLOCK)) {
-                        cptMiam--;
+                        cptMiamBlock--;
                     }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX() + 1][pacman.getPosY()] = pacman.getPacmanRotation();
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
             case "left":
                 if (!matrice[pacman.getPosX()][pacman.getPosY() - 1].equals(WALL_BLOCK)) {
                     if (matrice[pacman.getPosX()][pacman.getPosY() - 1].equals(MIAM_BLOCK)) {
-                        cptMiam--;
+                        cptMiamBlock--;
                     }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX()][pacman.getPosY() - 1] = pacman.getPacmanRotation();
