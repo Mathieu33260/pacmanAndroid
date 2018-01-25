@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     final Timer T_pacman=new Timer();
     final Timer T_ghostRandom=new Timer();
     final Timer T_ghostEvil=new Timer();
+    final Timer T_ghostSmart=new Timer();
 
     private boolean pacmanOpenMouth;
 
@@ -128,11 +129,13 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         if ((pacman.getPosX() == ghostRandom.getPosX() && pacman.getPosY() == ghostRandom.getPosY())
-                                || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())) {
+                                || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())
+                                || (pacman.getPosX() == ghostSmart.getPosX() && pacman.getPosY() == ghostSmart.getPosY())) {
 
                             T_pacman.cancel();
                             T_ghostRandom.cancel();
                             T_ghostEvil.cancel();
+                            T_ghostSmart.cancel();
 
                             score = score - cptMiamBlock;
 
@@ -157,11 +160,13 @@ public class MainActivity extends AppCompatActivity {
                     public void run()
                     {
                         if ((pacman.getPosX() == ghostRandom.getPosX() && pacman.getPosY() == ghostRandom.getPosY())
-                                || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())) {
+                                || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())
+                                || (pacman.getPosX() == ghostSmart.getPosX() && pacman.getPosY() == ghostSmart.getPosY())) {
 
                             T_ghostRandom.cancel();
                             T_ghostEvil.cancel();
                             T_pacman.cancel();
+                            T_ghostSmart.cancel();
 
                         } else {
                             count2++;
@@ -182,11 +187,13 @@ public class MainActivity extends AppCompatActivity {
                     public void run()
                     {
                         if ((pacman.getPosX() == ghostRandom.getPosX() && pacman.getPosY() == ghostRandom.getPosY())
-                                || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())) {
+                                || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())
+                                || (pacman.getPosX() == ghostSmart.getPosX() && pacman.getPosY() == ghostSmart.getPosY())) {
 
                             T_ghostEvil.cancel();
                             T_ghostRandom.cancel();
                             T_pacman.cancel();
+                            T_ghostSmart.cancel();
 
                         } else {
                             count3++;
@@ -198,8 +205,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 400, 400);
 
-        final Timer T_ghost3=new Timer();
-        T_ghost3.scheduleAtFixedRate(new TimerTask() {
+        T_ghostSmart.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable()
@@ -207,10 +213,21 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
+                        if ((pacman.getPosX() == ghostRandom.getPosX() && pacman.getPosY() == ghostRandom.getPosY())
+                                || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())
+                                || (pacman.getPosX() == ghostSmart.getPosX() && pacman.getPosY() == ghostSmart.getPosY())) {
 
-                        count4++;
-                        updateGhost(ghostSmart);
-                        imageAdapter.notifyDataSetChanged();
+                            T_ghostEvil.cancel();
+                            T_ghostRandom.cancel();
+                            T_pacman.cancel();
+                            T_ghostSmart.cancel();
+
+                        } else {
+                            count4++;
+                            updateGhost(ghostSmart);
+                            imageAdapter.notifyDataSetChanged();
+                        }
+
                     }
                 });
             }
@@ -408,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
   /*  public void endGame() {
         Intent intent = new Intent(MainActivity.class, ResultActivity.class);
         intent.putExtra("SCORE", score);
-    } */
+    }  */
 
     public void left_button_click(View view) {
         pacman.setNextDirection("left");
