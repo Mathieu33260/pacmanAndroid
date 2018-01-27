@@ -170,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
                             T_pacman.cancel();
                             T_ghostSmart.cancel();
 
+                            score = score - cptMiamBlock;
+
                             endGame();
 
                         } else {
@@ -199,6 +201,8 @@ public class MainActivity extends AppCompatActivity {
                             T_ghostSmart.cancel();
                             T_pacman.cancel();
                             T_ghostSmart.cancel();
+
+                            score = score - cptMiamBlock;
 
                             endGame();
 
@@ -230,6 +234,8 @@ public class MainActivity extends AppCompatActivity {
                             T_ghostSmart.cancel();
 
                             endGame();
+
+                            score = score - cptMiamBlock;
 
                         } else {
                             count4++;
