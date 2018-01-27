@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         if (cptMiamBlock == 0) {
                             T_pacman.cancel();
 
-                          //  endGame();
+                           endGame();
                         }
 
                         if ((pacman.getPosX() == ghostRandom.getPosX() && pacman.getPosY() == ghostRandom.getPosY())
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
                             score = score - cptMiamBlock;
 
-                        //    endGame();
+                            endGame();
 
                         } else {
                             count++;
@@ -170,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
                             T_pacman.cancel();
                             T_ghostSmart.cancel();
 
+                            endGame();
+
                         } else {
                             count2++;
                             updateGhost(ghostRandom);
@@ -198,6 +200,8 @@ public class MainActivity extends AppCompatActivity {
                             T_pacman.cancel();
                             T_ghostSmart.cancel();
 
+                            endGame();
+
                         } else {
                             count3++;
                             updateGhost(ghostEvil);
@@ -224,6 +228,8 @@ public class MainActivity extends AppCompatActivity {
                             T_ghostRandom.cancel();
                             T_pacman.cancel();
                             T_ghostSmart.cancel();
+
+                            endGame();
 
                         } else {
                             count4++;
@@ -425,10 +431,12 @@ public class MainActivity extends AppCompatActivity {
         return outputStream.toString();
     }
 
-  /*  public void endGame() {
-        Intent intent = new Intent(MainActivity.class, ResultActivity.class);
+    public void endGame() {
+        Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra("SCORE", score);
-    }  */
+
+        startActivity(intent);
+    }
 
     public void left_button_click(View view) {
         pacman.setNextDirection("left");
