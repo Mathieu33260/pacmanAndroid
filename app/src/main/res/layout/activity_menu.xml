@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
+    android:background="#111"
     android:padding="16dp"
     android:gravity="center"
     android:orientation="vertical"
     tools:context="com.example.mathieu.pacman.MenuActivity">
-
 
     <ImageView
         android:id="@+id/imageView"
@@ -25,7 +24,8 @@
         android:onClick="playGame"
         android:text="Play"
         android:textColor="#F2961F"
-        android:textSize="30dp" />
+        android:textSize="30dp"
+        android:background="@drawable/border_button"/>
 
 
 </LinearLayout>

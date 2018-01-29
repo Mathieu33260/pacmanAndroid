@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int NUMBER_COLUMNS = 19;
 
-    private static final int NUMBER_LINES = 10;
+    private static final int NUMBER_LINES = 20;
 
     public static final String WALL_BLOCK = "0";
 
@@ -160,29 +160,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        if ((pacman.getPosX() == ghostRandom.getPosX() && pacman.getPosY() == ghostRandom.getPosY())
-                                || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())
-                                || (pacman.getPosX() == ghostSmart.getPosX() && pacman.getPosY() == ghostSmart.getPosY())) {
-
-                            T_ghostRandom.cancel();
-                            T_ghostEvil.cancel();
-                            T_ghostSmart.cancel();
-                            T_pacman.cancel();
-                            T_ghostSmart.cancel();
-
-                            score = score - cptMiamBlock;
-
-                            endGame();
-
-                        } else {
                             count2++;
                             updateGhost(ghostRandom);
                             imageAdapter.notifyDataSetChanged();
-                        }
                     }
                 });
             }
-        }, 500, 500);
+        }, 300, 300);
 
         T_ghostEvil.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -192,29 +176,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        if ((pacman.getPosX() == ghostRandom.getPosX() && pacman.getPosY() == ghostRandom.getPosY())
-                                || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())
-                                || (pacman.getPosX() == ghostSmart.getPosX() && pacman.getPosY() == ghostSmart.getPosY())) {
-
-                            T_ghostEvil.cancel();
-                            T_ghostRandom.cancel();
-                            T_ghostSmart.cancel();
-                            T_pacman.cancel();
-                            T_ghostSmart.cancel();
-
-                            score = score - cptMiamBlock;
-
-                            endGame();
-
-                        } else {
                             count3++;
                             updateGhost(ghostEvil);
                             imageAdapter.notifyDataSetChanged();
-                        }
                     }
                 });
             }
-        }, 500, 500);
+        }, 300, 300);
 
         T_ghostSmart.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -224,29 +192,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        if ((pacman.getPosX() == ghostRandom.getPosX() && pacman.getPosY() == ghostRandom.getPosY())
-                                || (pacman.getPosX() == ghostEvil.getPosX() && pacman.getPosY() == ghostEvil.getPosY())
-                                || (pacman.getPosX() == ghostSmart.getPosX() && pacman.getPosY() == ghostSmart.getPosY())) {
-
-                            T_ghostEvil.cancel();
-                            T_ghostRandom.cancel();
-                            T_pacman.cancel();
-                            T_ghostSmart.cancel();
-
-                            endGame();
-
-                            score = score - cptMiamBlock;
-
-                        } else {
                             count4++;
                             updateGhost(ghostSmart);
                             imageAdapter.notifyDataSetChanged();
-                        }
 
                     }
                 });
             }
-        }, 500, 500);
+        }, 300, 300);
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(imageAdapter);
