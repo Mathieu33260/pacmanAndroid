@@ -3,6 +3,7 @@ package com.example.mathieu.pacman;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private int cptMiamBlock;
     private int score;
 
+    float x1, x2, y1, y2, dx, dy;
+
     final Timer T_pacman=new Timer();
     final Timer T_ghostRandom=new Timer();
     final Timer T_ghostEvil=new Timer();
@@ -72,21 +75,20 @@ public class MainActivity extends AppCompatActivity {
 
         matrice = matrice(getStr());
 
-        imageAdapter = new ImageAdapter(this,getStr().length,matrice,NUMBER_COLUMNS);
+        imageAdapter = new ImageAdapter(this, getStr().length, matrice, NUMBER_COLUMNS);
 
-        pacman = new Pacman("","", PACMAN_OPEN);
-        ghostRandom = new GhostRandom("","");
-        ghostEvil = new GhostEvil("","");
-        ghostSmart = new GhostSmart("","",matrice);
+        pacman = new Pacman("", "", PACMAN_OPEN);
+        ghostRandom = new GhostRandom("", "");
+        ghostEvil = new GhostEvil("", "");
+        ghostSmart = new GhostSmart("", "", matrice);
 
         cptMiamBlock = 0;
         score = 0;
 
         pacmanOpenMouth = true;
 
-        for(int i=0; i<matrice.length; i++)
-        {
-            for(int j=0; j<matrice[i].length; j++) {
+        for (int i = 0; i < matrice.length; i++) {
+            for (int j = 0; j < matrice[i].length; j++) {
                 if (matrice[i][j].equals(pacman.getPacmanRotation())) {
                     pacman.setPosX(i);
                     pacman.setPosY(j);
@@ -117,15 +119,13 @@ public class MainActivity extends AppCompatActivity {
         T_pacman.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable()
-                {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void run()
-                    {
+                    public void run() {
                         if (cptMiamBlock == 0) {
                             T_pacman.cancel();
 
-                           endGame();
+                            endGame();
                         }
 
                         if ((pacman.getPosX() == ghostRandom.getPosX() && pacman.getPosY() == ghostRandom.getPosY())
@@ -155,14 +155,12 @@ public class MainActivity extends AppCompatActivity {
         T_ghostRandom.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable()
-                {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void run()
-                    {
-                            count2++;
-                            updateGhost(ghostRandom);
-                            imageAdapter.notifyDataSetChanged();
+                    public void run() {
+                        count2++;
+                        updateGhost(ghostRandom);
+                        imageAdapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -171,14 +169,12 @@ public class MainActivity extends AppCompatActivity {
         T_ghostEvil.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable()
-                {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void run()
-                    {
-                            count3++;
-                            updateGhost(ghostEvil);
-                            imageAdapter.notifyDataSetChanged();
+                    public void run() {
+                        count3++;
+                        updateGhost(ghostEvil);
+                        imageAdapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -187,28 +183,52 @@ public class MainActivity extends AppCompatActivity {
         T_ghostSmart.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable()
-                {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void run()
-                    {
-                            count4++;
-                            updateGhost(ghostSmart);
-                            imageAdapter.notifyDataSetChanged();
+                    public void run() {
+                        count4++;
+                        updateGhost(ghostSmart);
+                        imageAdapter.notifyDataSetChanged();
 
                     }
                 });
             }
         }, 300, 300);
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
+        final GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(imageAdapter);
 
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                Toast.makeText(MainActivity.this, "" + position,
-                        Toast.LENGTH_SHORT).show();
+        gridview.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch(event.getAction()) {
+                    case(MotionEvent.ACTION_DOWN):
+                        x1 = event.getX();
+                        y1 = event.getY();
+                        break;
+
+                    case(MotionEvent.ACTION_UP): {
+                        x2 = event.getX();
+                        y2 = event.getY();
+                        dx = x2-x1;
+                        dy = y2-y1;
+
+                        // Use dx and dy to determine the direction of the move
+                        if(Math.abs(dx) > Math.abs(dy)) {
+                            if(dx>0)
+                                right_direction();
+                            else
+                                left_direction();
+                        } else {
+                            if(dy>0)
+                                bottom_direction();
+                            else
+                                top_direction();
+                        }
+                    }
+                }
+
+                return true;
             }
         });
     }
@@ -397,19 +417,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void left_button_click(View view) {
+    public void left_direction() {
         pacman.setNextDirection("left");
     }
 
-    public void top_button_click(View view) {
+    public void top_direction() {
         pacman.setNextDirection("top");
     }
 
-    public void bottom_button_click(View view) {
+    public void bottom_direction() {
         pacman.setNextDirection("bottom");
     }
 
-    public void right_button_click(View view) {
-        pacman.setNextDirection("right");
-    }
+    public void right_direction() { pacman.setNextDirection("right"); }
 }
