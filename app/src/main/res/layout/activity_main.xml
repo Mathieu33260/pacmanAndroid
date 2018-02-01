@@ -34,6 +34,7 @@
                     android:id="@+id/button_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="left_click_button"
                     android:text="Gauche" />
 
             </LinearLayout>
@@ -47,12 +48,14 @@
                     android:id="@+id/button_top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="top_click_button"
                     android:text="Haut" />
 
                 <Button
                     android:id="@+id/button_bottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="bottom_click_button"
                     android:text="Bas" />
 
             </LinearLayout>
@@ -65,6 +68,7 @@
                     android:id="@+id/button_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="right_click_button"
                     android:text="Droite" />
 
             </LinearLayout>

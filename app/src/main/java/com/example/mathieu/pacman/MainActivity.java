@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int NUMBER_COLUMNS = 19;
 
-    private static final int NUMBER_LINES = 20;
+    private static final int NUMBER_LINES = 25;
 
     public static final String WALL_BLOCK = "0";
 
@@ -430,4 +430,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void right_direction() { pacman.setNextDirection("right"); }
+
+    public void left_click_button(View view) { pacman.setNextDirection("left"); }
+
+    public void top_click_button(View view) { pacman.setNextDirection("top"); }
+
+    public void bottom_click_button(View view) { pacman.setNextDirection("bottom"); }
+
+    public void right_click_button(View view) { pacman.setNextDirection("right"); }
 }
