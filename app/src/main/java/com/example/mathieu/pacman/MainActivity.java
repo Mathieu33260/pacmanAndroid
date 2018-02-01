@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     private int count3;
     private int count4;
 
+    private int delay = 300;
+    private int period = 300;
+
     private static final int NUMBER_COLUMNS = 19;
 
     private static final int NUMBER_LINES = 25;
@@ -150,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 200, 200);
+        }, 250, 250);
 
         T_ghostRandom.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -164,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 300, 300);
+        }, delay, period);
 
         T_ghostEvil.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -178,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 300, 300);
+        }, delay, period);
 
         T_ghostSmart.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -193,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 300, 300);
+        }, delay, period);
 
         final GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(imageAdapter);
@@ -321,6 +324,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!matrice[pacman.getPosX() - 1][pacman.getPosY()].equals(WALL_BLOCK)) {
                     if (matrice[pacman.getPosX() - 1][pacman.getPosY()].equals(MIAM_BLOCK)) {
                         cptMiamBlock--;
+                        delay--;
+                        period--;
                     }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX() - 1][pacman.getPosY()] = pacman.getPacmanRotation();
@@ -331,6 +336,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!matrice[pacman.getPosX()][pacman.getPosY() + 1].equals(WALL_BLOCK)) {
                     if (matrice[pacman.getPosX()][pacman.getPosY() + 1].equals(MIAM_BLOCK)) {
                         cptMiamBlock--;
+                        delay--;
+                        period--;
                     }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX()][pacman.getPosY() + 1] = pacman.getPacmanRotation();
@@ -341,6 +348,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!matrice[pacman.getPosX() + 1][pacman.getPosY()].equals(WALL_BLOCK)) {
                     if (matrice[pacman.getPosX() + 1][pacman.getPosY()].equals(MIAM_BLOCK)) {
                         cptMiamBlock--;
+                        delay--;
+                        period--;
                     }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX() + 1][pacman.getPosY()] = pacman.getPacmanRotation();
@@ -351,6 +360,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!matrice[pacman.getPosX()][pacman.getPosY() - 1].equals(WALL_BLOCK)) {
                     if (matrice[pacman.getPosX()][pacman.getPosY() - 1].equals(MIAM_BLOCK)) {
                         cptMiamBlock--;
+                        delay--;
+                        period--;
                     }
                     matrice[pacman.getPosX()][pacman.getPosY()] = WHITE_BLOCK;
                     matrice[pacman.getPosX()][pacman.getPosY() - 1] = pacman.getPacmanRotation();
